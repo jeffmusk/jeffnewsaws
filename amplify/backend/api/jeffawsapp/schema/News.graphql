@@ -1,0 +1,16 @@
+type News @model {
+  id: ID!
+  title: String!
+  content: String
+  imgUrl: String
+  MetaData: NewsCategory
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum NewsCategory {
+  tecnologia
+  deporte
+  farandula
+  politica
+}
