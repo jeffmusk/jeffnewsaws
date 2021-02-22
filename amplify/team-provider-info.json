@@ -10,6 +10,11 @@
       "StackName": "amplify-jeffawsapp-dev-103710",
       "StackId": "arn:aws:cloudformation:us-east-2:155706351133:stack/amplify-jeffawsapp-dev-103710/a8b7ab60-745a-11eb-a4dc-069061106e60",
       "AmplifyAppId": "d328s68nsw03rm"
+    },
+    "categories": {
+      "auth": {
+        "jeffawsapp4870c144": {}
+      }
     }
   }
 }

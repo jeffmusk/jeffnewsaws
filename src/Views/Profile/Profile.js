@@ -1,6 +1,8 @@
 import React from "react";
 import "./Profile.css";
 
+import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
+
 import { Link } from "react-router-dom";
 /* import { toast } from "react-toastify"; */
 
@@ -35,24 +37,24 @@ function Profile(props) {
             className="rounded-full m-5 w-2/3 mx-auto"
             alt="foto perfil"
           />
-          <p className="text-center pb-2">email sin verificar</p>
+          <p className="text-center pb-2">email verificado</p>
         </div>
         <div className="bg-gray-100  col-span-2 p-5 font-sans">
           <h2>
             <span className="font-extrabold ">Email: </span>
-            jeffmercadeo
+            Email de usuario
           </h2>
           <h3>
             <span className="font-extrabold ">Nombre: </span>
-            {emailUser}
+            nombre
           </h3>
           <h3>
             <span className="font-extrabold ">Ultima sesion:</span>
-            {emailUser}
+            sesion
           </h3>
           <h3>
             <span className="font-extrabold ">Numero celular:</span>
-            {emailUser}
+            celular
           </h3>
           <Link
             to="/"
@@ -63,8 +65,13 @@ function Profile(props) {
           </Link>
         </div>
       </div>
+      <AmplifySignOut />
     </div>
   );
 }
 
-export default Profile;
+export default withAuthenticator(Profile, {
+  signUpConfig: {
+    hiddenDefaults: ["phone_number"],
+  },
+});
