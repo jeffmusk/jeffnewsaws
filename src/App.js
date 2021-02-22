@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {
   AmplifyAuthenticator,
   AmplifySignUp,
@@ -17,7 +17,8 @@ function App() {
     <div>
       <Router>
         <NavBar />
-        <AmplifyAuthenticator usernameAlias="email">
+
+        {/* <AmplifyAuthenticator usernameAlias="email">
           <AmplifySignUp
             slot="sign-up"
             headerText="Crea una cuenta"
@@ -37,6 +38,7 @@ function App() {
               },
             ]}
           />
+
           <AmplifySignIn
             slot="sign-in"
             usernameAlias="email"
@@ -62,6 +64,7 @@ function App() {
             slot="forgot-password"
           ></AmplifyForgotPassword>
         </AmplifyAuthenticator>
+         */}
         <Switch>
           <Route exact path="/">
             <Home />

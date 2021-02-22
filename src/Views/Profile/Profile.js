@@ -6,7 +6,7 @@ import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
 import { Link } from "react-router-dom";
 /* import { toast } from "react-toastify"; */
 
-const CustomToast = ({ closeToast }) => {
+/* const CustomToast = ({ closeToast }) => {
   return (
     <div>
       <h1>Titulo</h1>
@@ -14,14 +14,14 @@ const CustomToast = ({ closeToast }) => {
     </div>
   );
 };
-
+ */
 function Profile(props) {
-  const { currentUser, isAuthenticated } = props;
+  /*  const { currentUser, isAuthenticated } = props; */
   /* const notify = () =>
     toast(CustomToast, {
       position: toast.POSITION.BOTTOM_RIGHT,
     }); */
-  const emailUser = "jeffmercadeo@gmail.cpm";
+
   return (
     <div className=" flex flex-col    ">
       <h1 className="bg-gradient-to-r from-green-400 to-blue-500 py-3 font-sans text-lg font-bold flex justify-center text-white">

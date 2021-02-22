@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 import "./login.css";
 
@@ -20,10 +19,6 @@ function Login(props) {
 
     /* const { dispatch , email, pass } = this.props;
         dispatch(loginUser(email, pass, () => this.props.history.push("/panel"))); */
-  };
-
-  const singupWithGoogle = () => {
-    console.log("Login con Google");
   };
 
   const handlelogout = () => {
