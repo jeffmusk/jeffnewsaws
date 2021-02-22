@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { singUpUser } from "../../store/actions/auth";
+/* import { singUpUser } from "../../store/actions/auth";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"; */
 
 import { validateEmail } from "../../Utils/validateEmails";
 
 export default function SingUp() {
-  const dispatch = useDispatch();
+  /*  const dispatch = useDispatch(); */
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -25,33 +25,24 @@ export default function SingUp() {
   };
 
   const handleSubmit = () => {
+    console.log(email, password, password2);
     if (validateEmail(email)) {
       /* email valido */
-      if (password === password2) {
-        dispatch(
-          singUpUser(email, password, () => {
-            toast("Registro correcto");
-          })
-        );
+      if (password === password2 && password.length > 5) {
+        console.log("Registrandose");
       } else {
-        toast.error("Las contraseñas no coinciden", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        });
+        console.log(
+          "Las contrasenas deben coinsir y tener mas de 5 caracteres"
+        );
       }
     } else {
-      toast.error("Email invalido", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      console.log("email no valido");
     }
-    /* console.log(email, password);
-    dispatch(
-      singUpUser(email, password, () => console.log("Redireccion a perfil"))
-    ); */
   };
 
   return (
     <div className="main">
-      <div className="container">
+      <div className="containerLogin">
         <input type="email" placeholder="Email" onChange={handleEmailChange} />
         <input
           type={hiddenPass ? "text" : "password"}

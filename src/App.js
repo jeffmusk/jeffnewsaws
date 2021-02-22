@@ -1,15 +1,16 @@
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import {
+/* import {
   AmplifyAuthenticator,
   AmplifySignUp,
   AmplifySignIn,
   AmplifyForgotPassword,
-} from "@aws-amplify/ui-react";
+} from "@aws-amplify/ui-react"; */
 
 import Home from "./Views/Home/Home";
 import Login from "./Views/Login/Login";
 import Profile from "./Views/Profile/Profile";
+import SingUp from "./Views/SingUp/SingUp";
 import NavBar from "./Layouts/NavBar/NavBar";
 
 function App() {
@@ -74,6 +75,9 @@ function App() {
           </Route>
           <Route path="/profile">
             <Profile />
+          </Route>
+          <Route path="/singup">
+            <SingUp />
           </Route>
         </Switch>
       </Router>

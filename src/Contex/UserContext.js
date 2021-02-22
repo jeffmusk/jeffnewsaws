@@ -33,9 +33,12 @@ export function UserProvider(props) {
           break;
         case "configured":
           console.log("the Auth module is configured");
+          break;
+        default:
+          break;
       }
     });
-  }, []);
+  }, [user]);
 
   const value = useMemo(() => {
     return {
