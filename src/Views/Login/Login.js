@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 import "./login.css";
 
@@ -25,6 +26,8 @@ function Login(props) {
     console.log("cerrar sesion");
   };
 
+  const notify = () => toast("Wow so easy !");
+
   return (
     <div className="main">
       <div className="containerLogin">
@@ -39,7 +42,7 @@ function Login(props) {
           Iniciar sesion
         </button>
 
-        <button id="logout" onClick={handlelogout}>
+        <button id="logout" onClick={notify}>
           Cerrar sesion
         </button>
       </div>

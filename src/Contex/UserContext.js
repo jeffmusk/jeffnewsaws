@@ -25,8 +25,8 @@ export function UserProvider(props) {
           currentUser();
           break;
         case "signOut":
-          console.log("user signed out");
           setUser(null);
+          console.log("user signed out");
           break;
         case "signIn_failure":
           console.log("user sign in failed");
@@ -38,7 +38,7 @@ export function UserProvider(props) {
           break;
       }
     });
-  }, [user]);
+  }, []);
 
   const value = useMemo(() => {
     return {

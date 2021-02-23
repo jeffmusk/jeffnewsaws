@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Cache, Auth } from "aws-amplify";
 /* import { singUpUser } from "../../store/actions/auth";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify"; */
@@ -24,15 +25,31 @@ export default function SingUp() {
     setPassword2(target.value);
   };
 
-  const handleSubmit = () => {
-    console.log(email, password, password2);
+  const handleSubmit = async () => {
+    const dateNow = Date.now();
+    var oneDay = new Date(dateNow + 86400000);
+
     if (validateEmail(email)) {
       /* email valido */
       if (password === password2 && password.length > 5) {
+        Cache.setItem(
+          "DataUser",
+          { email, password },
+          { priority: 3, expires: oneDay.getTime() }
+        );
+        try {
+          const { user } = await Auth.signUp({
+            username: email,
+            password,
+          });
+          console.log(user);
+        } catch (error) {
+          console.log("error signing up:", error);
+        }
         console.log("Registrandose");
       } else {
         console.log(
-          "Las contrasenas deben coinsir y tener mas de 5 caracteres"
+          "Las contraseñas deben coincidir y tener mas de 5 caracteres"
         );
       }
     } else {

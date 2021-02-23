@@ -31,15 +31,7 @@ export default function NavBar() {
               >
                 <p>Login</p>
               </NavLink>
-              <NavLink
-                to="/singup"
-                activeStyle={{
-                  fontWeight: "bold",
-                  color: "red",
-                }}
-              >
-                <p>Registrarse</p>
-              </NavLink>
+
               <NavLink
                 to="/profile"
                 activeStyle={{
@@ -48,6 +40,16 @@ export default function NavBar() {
                 }}
               >
                 <p>Perfil</p>
+              </NavLink>
+
+              <NavLink
+                to="/singup"
+                activeStyle={{
+                  fontWeight: "bold",
+                  color: "red",
+                }}
+              >
+                <p>Iniciar Sesion</p>
               </NavLink>
             </div>
           </div>
