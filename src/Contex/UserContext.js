@@ -6,23 +6,38 @@ const UserContext = createContext();
 export function UserProvider(props) {
   const [user, setUser] = useState(null);
 
+  async function checkUser() {
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      console.log(user);
+      setUser(user);
+    } catch (error) {
+      console.log(error);
+      setUser(null);
+    }
+  }
+
   useEffect(() => {
     console.log("cargando usuarios");
-    function currentUser() {
-      Auth.currentSession()
-        .then((data) => setUser(data.idToken.payload))
+    checkUser();
+
+    /*  function currentUser() {
+      Auth.currentAuthenticatedUser()
+        .then((user) => setUser(user), console.log(user))
         .catch((err) => console.log(err));
     }
-    currentUser();
+    currentUser();*/
+
     Hub.listen("auth", (data) => {
       switch (data.payload.event) {
         case "signIn":
           console.log("inicio de sesion");
-          currentUser();
+          console.log(data);
+          checkUser();
           break;
         case "signUp":
           console.log("user signed up");
-          currentUser();
+          checkUser();
           break;
         case "signOut":
           setUser(null);
@@ -48,7 +63,7 @@ export function UserProvider(props) {
   return <UserContext.Provider value={value} {...props} />;
 }
 
-export function useUsuario() {
+export function useCurrentUser() {
   const context = React.useContext(UserContext);
   if (!context) {
     throw new Error(

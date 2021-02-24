@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 /* import {
@@ -8,77 +9,40 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 } from "@aws-amplify/ui-react"; */
 
 import Home from "./Views/Home/Home";
-import Login from "./Views/Login/Login";
+import AuthForm from "./Views/AuthForm/AuthForm";
 import Profile from "./Views/Profile/Profile";
-import SingUp from "./Views/SingUp/SingUp";
 import NavBar from "./Layouts/NavBar/NavBar";
+import PrivateRoutes from "./Utils/Routes/PrivateRoutes";
+import PublicRoutes from "./Utils/Routes/PublicRoutes";
+import { useCurrentUser } from "./Contex/UserContext";
 
 function App() {
+  const [currentUser, setCurrentUser] = useState(false);
+  const { user } = useCurrentUser();
+
+  useEffect(() => {
+    setCurrentUser(user);
+  }, [user]);
+
   return (
     <div>
       <Router>
         <NavBar />
 
-        {/* <AmplifyAuthenticator usernameAlias="email">
-          <AmplifySignUp
-            slot="sign-up"
-            headerText="Crea una cuenta"
-            usernameAlias="email"
-            formFields={[
-              {
-                type: "email",
-                label: "Email",
-                placeholder: "usuario@email.com",
-                required: true,
-              },
-              {
-                type: "password",
-                label: "Contraseña",
-                placeholder: "Minimo 6 caracteres",
-                required: true,
-              },
-            ]}
-          />
-
-          <AmplifySignIn
-            slot="sign-in"
-            usernameAlias="email"
-            headerText="Iniciar sesión"
-            submitButtonText="Iniciar sesión"
-            formFields={[
-              {
-                type: "email",
-                label: "Email",
-                placeholder: "usuario@email.com",
-                required: true,
-              },
-              {
-                type: "password",
-                label: "Contraseña",
-                placeholder: "contraseña",
-                required: true,
-              },
-            ]}
-          ></AmplifySignIn>
-          <AmplifyForgotPassword
-            headerText="Recuperar contraseña"
-            slot="forgot-password"
-          ></AmplifyForgotPassword>
-        </AmplifyAuthenticator>
-         */}
         <Switch>
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/profile">
-            <Profile />
-          </Route>
-          <Route path="/singup">
-            <SingUp />
-          </Route>
+          <PublicRoutes
+            path="/auth"
+            currectUser={currentUser}
+            component={AuthForm}
+          />
+          <PrivateRoutes
+            path="/profile"
+            currectUser={currentUser}
+            component={Profile}
+          />
         </Switch>
       </Router>
     </div>

@@ -7,7 +7,7 @@ export default function NavBar() {
       <div className="relative bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className=" flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
-            <div className="flex justify-around  lg:w-0 lg:flex-1 font-sans ">
+            <div className="flex justify-around  lg:w-0 lg:flex-1 font-sans md:w-0 md:flex-1  ">
               <NavLink
                 to="/"
                 activeStyle={{
@@ -23,13 +23,13 @@ export default function NavBar() {
               </NavLink>
 
               <NavLink
-                to="/login"
+                to="/signup"
                 activeStyle={{
                   fontWeight: "bold",
                   color: "red",
                 }}
               >
-                <p>Login</p>
+                <p>Noticias</p>
               </NavLink>
 
               <NavLink
@@ -43,7 +43,7 @@ export default function NavBar() {
               </NavLink>
 
               <NavLink
-                to="/singup"
+                to="/auth"
                 activeStyle={{
                   fontWeight: "bold",
                   color: "red",
