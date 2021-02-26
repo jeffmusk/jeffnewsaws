@@ -1,9 +1,10 @@
 import React from "react";
 import "./Profile.css";
 
-import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
+import { AmplifySignOut } from "@aws-amplify/ui-react";
 
 import { Link } from "react-router-dom";
+import { useCurrentUser } from "../../Contex/UserContext";
 /* import { toast } from "react-toastify"; */
 
 /* const CustomToast = ({ closeToast }) => {
@@ -21,7 +22,7 @@ function Profile(props) {
     toast(CustomToast, {
       position: toast.POSITION.BOTTOM_RIGHT,
     }); */
-
+  const { user } = useCurrentUser();
   return (
     <div className=" flex flex-col    ">
       <h1 className="bg-gradient-to-r from-green-400 to-blue-500 py-3 font-sans text-lg font-bold flex justify-center text-white">
@@ -37,12 +38,14 @@ function Profile(props) {
             className="rounded-full m-5 w-2/3 mx-auto"
             alt="foto perfil"
           />
-          <p className="text-center pb-2">email verificado</p>
+          <p className="text-center pb-2">
+            {user ? "email Verificado" : "Email sin verificar"}
+          </p>
         </div>
         <div className="bg-gray-100  col-span-2 p-5 font-sans">
           <h2>
             <span className="font-extrabold ">Email: </span>
-            Email de usuario
+            {user ? user.attributes.email : "Sin email"}
           </h2>
           <h3>
             <span className="font-extrabold ">Nombre: </span>
@@ -65,13 +68,9 @@ function Profile(props) {
           </Link>
         </div>
       </div>
-      <AmplifySignOut />
+      <AmplifySignOut buttonText="Cerrar sesión" />
     </div>
   );
 }
 
-export default withAuthenticator(Profile, {
-  signUpConfig: {
-    hiddenDefaults: ["phone_number"],
-  },
-});
+export default Profile;

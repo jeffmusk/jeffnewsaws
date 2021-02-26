@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./main.css";
-/* import "../../Components/CustomForms/CustomForms.css"; */
-import { toast } from "react-toastify";
-
 import { useCurrentUser } from "../../Contex/UserContext";
 
 /* import FormSingIn from "../CustomForms/FormSingIn";
 import FormSingUp from "../CustomForms/FormSingUp";
 import ForgotPassword from "../CustomForms/ForgotPassword"; */
 
-import { Hub, Auth } from "aws-amplify";
+import { Auth } from "aws-amplify";
 
 const initialFormState = {
   email: "jeffpruebas1@gmail.com",
@@ -21,12 +18,6 @@ const initialFormState = {
 function AuthForm(props) {
   const [formState, setFormState] = useState(initialFormState);
   const { user } = useCurrentUser();
-
-  useEffect(() => {
-    if (user) {
-      setFormState(() => ({ ...formState, formType: "signedIn" }));
-    }
-  }, [user]);
 
   function onChange(e) {
     e.persist();
@@ -70,12 +61,6 @@ function AuthForm(props) {
 
     setFormState(() => ({ ...formState, formType: "signedIn" }));
   }
-
-  const handlelogout = () => {
-    console.log("cerrar sesion");
-  };
-
-  const notify = () => toast("Wow so easy !");
 
   const { formType, email, password } = formState;
   return (

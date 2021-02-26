@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Redirect, Route } from "react-router-dom";
 
 export default function PrivateRoutes({
@@ -6,7 +6,6 @@ export default function PrivateRoutes({
   currectUser,
   rest,
 }) {
-  console.log(currectUser);
   return (
     <Route
       {...rest}

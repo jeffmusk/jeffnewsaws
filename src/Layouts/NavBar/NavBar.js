@@ -21,15 +21,23 @@ export default function NavBar() {
                   alt=""
                 ></img>
               </NavLink>
-
               <NavLink
-                to="/signup"
+                to="/listnews"
                 activeStyle={{
                   fontWeight: "bold",
                   color: "red",
                 }}
               >
-                <p>Noticias</p>
+                <p>Todas las Noticias</p>
+              </NavLink>
+              <NavLink
+                to="/news"
+                activeStyle={{
+                  fontWeight: "bold",
+                  color: "red",
+                }}
+              >
+                <p>Crear Noticias</p>
               </NavLink>
 
               <NavLink

@@ -1,20 +1,34 @@
 import React, { useEffect, useMemo, useState, createContext } from "react";
 import { Hub, Auth } from "aws-amplify";
+import SpinnerApp from "../Components/Spinner/SpinnerApp";
 
 const UserContext = createContext();
 
 export function UserProvider(props) {
   const [user, setUser] = useState(null);
+  const [loading, setloading] = useState(true);
 
   async function checkUser() {
-    try {
-      const user = await Auth.currentAuthenticatedUser();
-      console.log(user);
+    Auth.currentAuthenticatedUser()
+      .then((result) => {
+        setUser(result);
+        setloading(false);
+      })
+      .catch((err) => {
+        console.log("no logueado");
+        console.log(err);
+        setloading(false);
+      });
+    /* try {
+      let resultUser = await Auth.currentAuthenticatedUser();
       setUser(user);
+      setloading(false);
+      console.log("respuesta", resultUser);
     } catch (error) {
       console.log(error);
       setUser(null);
-    }
+      setloading(false);
+    } */
   }
 
   useEffect(() => {
@@ -31,17 +45,15 @@ export function UserProvider(props) {
     Hub.listen("auth", (data) => {
       switch (data.payload.event) {
         case "signIn":
-          console.log("inicio de sesion");
-          console.log(data);
           checkUser();
           break;
         case "signUp":
-          console.log("user signed up");
+          console.log("Nuevo registro");
           checkUser();
           break;
         case "signOut":
           setUser(null);
-          console.log("user signed out");
+          console.log("Cerro sesion");
           break;
         case "signIn_failure":
           console.log("user sign in failed");
@@ -60,7 +72,11 @@ export function UserProvider(props) {
       user,
     };
   }, [user]);
-  return <UserContext.Provider value={value} {...props} />;
+  return loading ? (
+    <SpinnerApp />
+  ) : (
+    <UserContext.Provider value={value} {...props} />
+  );
 }
 
 export function useCurrentUser() {

@@ -9,6 +9,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 } from "@aws-amplify/ui-react"; */
 
 import Home from "./Views/Home/Home";
+import News from "./Views/News/News";
+import ListNews from "./Views/News/ListNews";
 import AuthForm from "./Views/AuthForm/AuthForm";
 import Profile from "./Views/Profile/Profile";
 import NavBar from "./Layouts/NavBar/NavBar";
@@ -33,6 +35,7 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
+
           <PublicRoutes
             path="/auth"
             currectUser={currentUser}
@@ -42,6 +45,16 @@ function App() {
             path="/profile"
             currectUser={currentUser}
             component={Profile}
+          />
+          <PrivateRoutes
+            path="/news"
+            currectUser={currentUser}
+            component={News}
+          />
+          <PrivateRoutes
+            path="/listnews"
+            currectUser={currentUser}
+            component={ListNews}
           />
         </Switch>
       </Router>

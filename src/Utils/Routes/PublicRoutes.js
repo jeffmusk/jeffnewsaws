@@ -6,7 +6,6 @@ export default function PublicRoutes({
   currectUser,
   rest,
 }) {
-  console.log(currectUser);
   return (
     <Route
       {...rest}
