@@ -28,7 +28,7 @@ export default function NavBar() {
                   color: "red",
                 }}
               >
-                <p>Todas las Noticias</p>
+                <p>Mis Noticias</p>
               </NavLink>
               <NavLink
                 to="/news"

@@ -1,11 +1,14 @@
-type News @model {
+type News @model @auth(rules: [{ allow: owner, queries: null }]) {
   id: ID!
   title: String!
-  content: String
+  description: String
   imgUrl: String
+  url: String
+  author: String
   MetaData: NewsCategory
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
+  publishedAt: String
 }
 
 enum NewsCategory {
