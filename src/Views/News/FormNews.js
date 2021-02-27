@@ -57,9 +57,9 @@ export default function FormNews(props) {
               rows="4"
               className="border-solid border-gray-300 border-2  p-1 md:text-xl w-full rounded-xl shadow-md"
               placeholder="Contenido"
-              name="content"
+              name="description"
               onChange={onChange}
-              value={formState.content}
+              value={formState.description}
             ></textarea>
           </div>
 

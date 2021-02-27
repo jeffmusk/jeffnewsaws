@@ -17,7 +17,7 @@ const CustomToast = (title, message) => {
 
 const initialFormState = {
   title: "",
-  content: "",
+  description: "",
   imgUrl: "",
   MetaData: "default",
 };

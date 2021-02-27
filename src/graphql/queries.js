@@ -6,11 +6,24 @@ export const getNews = /* GraphQL */ `
     getNews(id: $id) {
       id
       title
-      content
+      description
       imgUrl
+      url
+      author
       MetaData
       createdAt
       updatedAt
+      publishedAt
+      comments {
+        items {
+          id
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      owner
     }
   }
 `;
@@ -24,10 +37,73 @@ export const listNewss = /* GraphQL */ `
       items {
         id
         title
-        content
+        description
         imgUrl
+        url
+        author
         MetaData
         createdAt
+        updatedAt
+        publishedAt
+        comments {
+          nextToken
+        }
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getComment = /* GraphQL */ `
+  query GetComment($id: ID!) {
+    getComment(id: $id) {
+      id
+      content
+      createdAt
+      news {
+        id
+        title
+        description
+        imgUrl
+        url
+        author
+        MetaData
+        createdAt
+        updatedAt
+        publishedAt
+        comments {
+          nextToken
+        }
+        owner
+      }
+      updatedAt
+    }
+  }
+`;
+export const listComments = /* GraphQL */ `
+  query ListComments(
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        content
+        createdAt
+        news {
+          id
+          title
+          description
+          imgUrl
+          url
+          author
+          MetaData
+          createdAt
+          updatedAt
+          publishedAt
+          owner
+        }
         updatedAt
       }
       nextToken

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useCurrentUser } from "../../Contex/UserContext";
 import SpinnerApp from "../../Components/Spinner/SpinnerApp";
+import saveIcon from "../../Assets/save.svg";
 import axios from "axios";
+import { API } from "aws-amplify";
+import * as mutations from "../../graphql/mutations";
+import { toast } from "react-toastify";
 
 export default function Home() {
   const { user } = useCurrentUser();
@@ -14,12 +18,41 @@ export default function Home() {
       .get(`https://newsapi.org/v2/top-headlines?country=co&apiKey=${apiKey}`)
       .then((res) => {
         setArticles(res.data.articles);
+        console.log(res.data.articles);
         setLoading(false);
       })
       .catch((err) => {
         console.log(err);
         setLoading(false);
       });
+  }
+
+  async function saveNews(data) {
+    let newNotice = {
+      title: data.title,
+      description: data.description,
+      imgUrl: data.urlToImage,
+      url: data.url,
+      author: data.source.name,
+    };
+
+    try {
+      await API.graphql({
+        query: mutations.createNews,
+        variables: {
+          input: newNotice,
+        },
+      });
+      toast.success("Noticia Guardada", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 3000,
+      });
+    } catch (error) {
+      toast.error(error, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+      });
+    }
   }
 
   useEffect(() => {
@@ -35,15 +68,13 @@ export default function Home() {
           {articles &&
             articles.map((data) => (
               <div className="p-8 bg-white" key={data.publishedAt}>
-                <a href={data.url}>
-                  <img
-                    className="rounded-lg w-full"
-                    src={data.urlToImage}
-                    alt="Sin imagen"
-                  />
-                </a>
+                <img
+                  className="rounded-lg w-full"
+                  src={data.urlToImage}
+                  alt="Sin imagen"
+                />
 
-                <p className="text-indigo-500 font-semibold text-base mt-2">
+                <p className="text-indigo-500 font-semibold text-base mt-2 inline">
                   {data.author}
                 </p>
 
@@ -56,22 +87,34 @@ export default function Home() {
                     {data.description}
                   </p>
                 </div>
-                <div className="flex items-center space-x-1 mt-5">
+                <div className="flex items-center space-x-1 mt-5 space-x-2  ">
                   <div>
-                    <p className="text-gray-500 font-semibold text-sm">
-                      data.createdAt
+                    <p className="text-gray-500 font-semibold text-sm inline-block ">
+                      {data.publishedAt}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-1 mt-5 grid-cols-2">
-                  <button
-                    className="py-2 px-4 bg-blue-500 text-white font-bold w-full  rounded-xl shadow-lg"
-                    onClick={() => {
-                      console.log("leer mas tarde");
-                    }}
+
+                <div className="flex items-center space-x-1 mt-5 grid-cols-2 space-x-2">
+                  {user && (
+                    <img
+                      className="  inline-block pr-3"
+                      style={{ cursor: "pointer" }}
+                      src={saveIcon}
+                      alt="guardar"
+                      onClick={() => {
+                        saveNews(data);
+                      }}
+                    />
+                  )}
+
+                  <a
+                    href={data.url}
+                    target="_blank"
+                    className="py-2 px-4 bg-blue-500 text-white font-bold w-full text-center rounded-xl shadow-lg inline-block "
                   >
                     Leer Mas tarde
-                  </button>
+                  </a>
                 </div>
               </div>
             ))}

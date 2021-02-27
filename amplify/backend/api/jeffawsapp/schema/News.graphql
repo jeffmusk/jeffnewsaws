@@ -9,6 +9,7 @@ type News @model @auth(rules: [{ allow: owner, queries: null }]) {
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
   publishedAt: String
+  comments: [Comment] @connection(name: "NewsComments", sortField: "createdAt")
 }
 
 enum NewsCategory {
@@ -16,4 +17,11 @@ enum NewsCategory {
   deporte
   farandula
   politica
+}
+
+type Comment @model {
+  id: ID!
+  content: String!
+  createdAt: String
+  news: News @connection(name: "NewsComments", sortField: "createdAt")
 }

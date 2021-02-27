@@ -6,11 +6,24 @@ export const onCreateNews = /* GraphQL */ `
     onCreateNews {
       id
       title
-      content
+      description
       imgUrl
+      url
+      author
       MetaData
       createdAt
       updatedAt
+      publishedAt
+      comments {
+        items {
+          id
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      owner
     }
   }
 `;
@@ -19,11 +32,24 @@ export const onUpdateNews = /* GraphQL */ `
     onUpdateNews {
       id
       title
-      content
+      description
       imgUrl
+      url
+      author
       MetaData
       createdAt
       updatedAt
+      publishedAt
+      comments {
+        items {
+          id
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      owner
     }
   }
 `;
@@ -32,10 +58,101 @@ export const onDeleteNews = /* GraphQL */ `
     onDeleteNews {
       id
       title
-      content
+      description
       imgUrl
+      url
+      author
       MetaData
       createdAt
+      updatedAt
+      publishedAt
+      comments {
+        items {
+          id
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      owner
+    }
+  }
+`;
+export const onCreateComment = /* GraphQL */ `
+  subscription OnCreateComment {
+    onCreateComment {
+      id
+      content
+      createdAt
+      news {
+        id
+        title
+        description
+        imgUrl
+        url
+        author
+        MetaData
+        createdAt
+        updatedAt
+        publishedAt
+        comments {
+          nextToken
+        }
+        owner
+      }
+      updatedAt
+    }
+  }
+`;
+export const onUpdateComment = /* GraphQL */ `
+  subscription OnUpdateComment {
+    onUpdateComment {
+      id
+      content
+      createdAt
+      news {
+        id
+        title
+        description
+        imgUrl
+        url
+        author
+        MetaData
+        createdAt
+        updatedAt
+        publishedAt
+        comments {
+          nextToken
+        }
+        owner
+      }
+      updatedAt
+    }
+  }
+`;
+export const onDeleteComment = /* GraphQL */ `
+  subscription OnDeleteComment {
+    onDeleteComment {
+      id
+      content
+      createdAt
+      news {
+        id
+        title
+        description
+        imgUrl
+        url
+        author
+        MetaData
+        createdAt
+        updatedAt
+        publishedAt
+        comments {
+          nextToken
+        }
+        owner
+      }
       updatedAt
     }
   }

@@ -8,7 +8,7 @@ import FormNews from "./FormNews";
 const initialFormState = {
   id: "",
   title: "",
-  content: "",
+  description: "",
   imgUrl: "",
   MetaData: "",
 };
@@ -40,7 +40,7 @@ export default function ListNews() {
     let newsToEdit = {
       id: data.id,
       title: data.title,
-      content: data.content,
+      description: data.description,
       imgUrl: data.imgUrl,
       MetaData: data.MetaData,
     };
@@ -101,11 +101,13 @@ export default function ListNews() {
             {listnews &&
               listnews.map((data) => (
                 <div className="p-8 bg-white" key={data.id}>
-                  <img
-                    className="rounded-lg w-full"
-                    src={data.imgUrl}
-                    alt="Sin imagen"
-                  />
+                  <a href={data.url} target="blanck">
+                    <img
+                      className="rounded-lg w-full"
+                      src={data.imgUrl}
+                      alt="Sin imagen"
+                    />
+                  </a>
 
                   <p className="text-indigo-500 font-semibold text-base mt-2">
                     {data.MetaData}
@@ -117,7 +119,7 @@ export default function ListNews() {
 
                   <div className="max-w-full">
                     <p className="text-base font-medium tracking-wide text-gray-600 mt-1">
-                      {data.content}
+                      {data.description}
                     </p>
                   </div>
                   <div className="flex items-center space-x-1 mt-5">
