@@ -11,8 +11,7 @@ export function UserProvider(props) {
   async function checkUser() {
     Auth.currentAuthenticatedUser()
       .then((result) => {
-        setUser(result);
-        setloading(false);
+        setUser(result, setloading(false));
       })
       .catch((err) => {
         console.log("no logueado");
