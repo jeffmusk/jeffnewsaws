@@ -32,9 +32,8 @@ function App() {
         <NavBar />
 
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/" component={AuthForm} />
 
           <PublicRoutes
             path="/auth"
