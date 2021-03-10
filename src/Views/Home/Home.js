@@ -37,8 +37,10 @@ export default function Home() {
         setLoading(false);
       })
       .catch((err) => {
+        console.log(
+          "se ha producido un error en la respuesta, no podemos cargar los datos"
+        );
         console.log(err);
-        setLoading(false);
       });
   }
 
