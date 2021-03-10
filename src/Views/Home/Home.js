@@ -20,11 +20,11 @@ export default function Home() {
         `http://api.mediastack.com/v1/news?access_key=${apiKeyMediastack}&languages=es`
       );
       console.log(res.data);
-      setArticles(res.data);
-      setLoading(false);
+      /* setArticles(res.data);
+      setLoading(false); */
     } catch (error) {
       console.log(error);
-      setLoading(false);
+      /*       setLoading(false); */
     }
   };
 
