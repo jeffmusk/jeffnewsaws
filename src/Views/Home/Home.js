@@ -15,7 +15,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   const getNewsMediaStack = async () => {
-    console.log(apiKeyMediastack);
     try {
       const res = await axios.get(
         `http://api.mediastack.com/v1/news?access_key=${apiKeyMediastack}&languages=es`
