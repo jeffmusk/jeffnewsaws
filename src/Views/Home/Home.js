@@ -15,7 +15,8 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   const getNewsMediaStack = async () => {
-    try {
+    console.log("desabilitado por pruebas");
+    /* try {
       const res = await axios.get(
         `http://api.mediastack.com/v1/news?access_key=${apiKeyMediastack}&languages=es`
       );
@@ -25,7 +26,7 @@ export default function Home() {
     } catch (error) {
       console.log(error);
       setLoading(false);
-    }
+    } */
   };
 
   async function getNewsFromApi() {
