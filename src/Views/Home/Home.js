@@ -13,24 +13,30 @@ const apiNyTimes = axios.create({
 
 export default function Home() {
   const { user } = useCurrentUser();
-  const apiKey = process.env.REACT_APP_API_KEY_NEWSAPI;
-  const apiKeyMediastack = process.env.REACT_APP_API_KEY_NEWSAPI_MEDIASTACK;
   const [articles, setArticles] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const getNewsMediaStack = async () => {
+  const getNews = async (page) => {
     try {
-      const res = await axios.get(
-        `https://api.mediastack.com/v1/news?access_key=${apiKeyMediastack}&languages=es`
-      );
-      console.log(res.data);
-      /* setArticles(res.data);
-      setLoading(false); */
+      const { data } = await apiNyTimes.get("/articles.json", {
+        params: {
+          "api-key": process.env.REACT_APP_API_KEY_NYTIMES,
+          fq: 'news_desk:("Culture)',
+          sort: "newest",
+          page,
+        },
+      });
+      return data.response.docs;
     } catch (error) {
       console.log(error);
-      /*       setLoading(false); */
+      throw error;
     }
   };
+
+  useEffect(() => {
+    let res = getNews(1);
+    console.log(res);
+  }, []);
 
   async function saveNews(data) {
     let newNotice = {
@@ -62,7 +68,6 @@ export default function Home() {
 
   useEffect(() => {
     console.log("buscando noticias");
-    getNewsMediaStack();
   }, []);
 
   return (
