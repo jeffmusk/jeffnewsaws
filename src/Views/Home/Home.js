@@ -1,18 +1,18 @@
 import React, { useEffect, useState, useRef, useReducer } from "react";
-import { useCurrentUser } from "../../Contex/UserContext";
 import { Paper, Grid, Box } from "@material-ui/core";
 import _ from "lodash";
 import { AmplifyLoadingSpinner } from "@aws-amplify/ui-react";
-
-import { API } from "aws-amplify";
-import * as mutations from "../../graphql/mutations";
 import { toast } from "react-toastify";
+import { API } from "aws-amplify";
+import { useInView } from "react-intersection-observer";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
+import { useCurrentUser } from "../../Contex/UserContext";
+import * as mutations from "../../graphql/mutations";
 import newsReducer from "../../CustomUseReducer/newReducer";
 import { getNews } from "../../Services/news.api";
 import { AppStyles } from "./HomeStyle";
 import NewsCard from "../../Components/Card/NewsCard";
-import { useInView } from "react-intersection-observer";
 
 const Home = () => {
   const { user } = useCurrentUser();
@@ -91,14 +91,20 @@ const Home = () => {
     <div>
       <Grid container className={classes.root} spacing={5}>
         <Grid item xs={12}>
-          <Grid container justify="center" spacing={5}>
-            {!_.isEmpty(news.articles) &&
-              news.articles.map((data, index) => (
-                <Grid key={index} item>
-                  <NewsCard data={data} user={user} saveNews={saveNews} />
-                </Grid>
-              ))}
-          </Grid>
+          <ResponsiveMasonry
+            columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
+          >
+            <div className={classes.newsGrid}>
+              <Masonry>
+                {!_.isEmpty(news.articles) &&
+                  news.articles.map((data, index) => (
+                    <Grid key={index} item>
+                      <NewsCard data={data} user={user} saveNews={saveNews} />
+                    </Grid>
+                  ))}
+              </Masonry>
+            </div>
+          </ResponsiveMasonry>
 
           <div
             style={{
