@@ -7,6 +7,10 @@ import { API } from "aws-amplify";
 import * as mutations from "../../graphql/mutations";
 import { toast } from "react-toastify";
 
+const apiNyTimes = axios.create({
+  baseURL: "https://api.nytimes.com/svc/search/v2/",
+});
+
 export default function Home() {
   const { user } = useCurrentUser();
   const apiKey = process.env.REACT_APP_API_KEY_NEWSAPI;
@@ -27,22 +31,6 @@ export default function Home() {
       /*       setLoading(false); */
     }
   };
-
-  async function getNewsFromApi() {
-    axios
-      .get(`https://newsapi.org/v2/top-headlines?country=co&apiKey=${apiKey}`)
-      .then((res) => {
-        setArticles(res.data.articles);
-        console.log(res.data.articles);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(
-          "se ha producido un error en la respuesta, no podemos cargar los datos"
-        );
-        console.log(err);
-      });
-  }
 
   async function saveNews(data) {
     let newNotice = {
