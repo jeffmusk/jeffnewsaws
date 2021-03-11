@@ -94,16 +94,14 @@ const Home = () => {
           <ResponsiveMasonry
             columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
           >
-            <div className={classes.newsGrid}>
-              <Masonry>
-                {!_.isEmpty(news.articles) &&
-                  news.articles.map((data, index) => (
-                    <Grid key={index} item>
-                      <NewsCard data={data} user={user} saveNews={saveNews} />
-                    </Grid>
-                  ))}
-              </Masonry>
-            </div>
+            <Masonry>
+              {!_.isEmpty(news.articles) &&
+                news.articles.map((data, index) => (
+                  <Grid key={index} item>
+                    <NewsCard data={data} user={user} saveNews={saveNews} />
+                  </Grid>
+                ))}
+            </Masonry>
           </ResponsiveMasonry>
 
           <div

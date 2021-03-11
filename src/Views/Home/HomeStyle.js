@@ -4,6 +4,7 @@ export const AppStyles = makeStyles({
   root: {
     marginTop: "5px",
     background: "#efefef",
+    margin: "auto",
   },
   newsGrid: {
     margin: "auto",
