@@ -1,67 +1,60 @@
 import React, { useEffect, useState, useRef, useReducer } from "react";
 import { useCurrentUser } from "../../Contex/UserContext";
 import SpinnerApp from "../../Components/Spinner/SpinnerApp";
+import { Paper, Grid, Box } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
+import _ from "lodash";
+import { AmplifyLoadingSpinner } from "@aws-amplify/ui-react";
 
-import axios from "axios";
 import { API } from "aws-amplify";
 import * as mutations from "../../graphql/mutations";
 import { toast } from "react-toastify";
 import NewsCard from "../../Components/NewsCard/NewsCard";
 import newsReducer from "../../CustomUseReducer/newReducer";
+import { getNews } from "../../Services/news.api";
+import { AppStyles } from "./HomeStyle";
 
-const apiNyTimes = axios.create({
-  baseURL: "https://api.nytimes.com/svc/search/v2/",
-});
-
-export default function Home() {
+const Home = () => {
   const { user } = useCurrentUser();
   const [category, setCategory] = useState("Home");
-  const [articles, setArticles] = useState(null);
-  const [loading, setLoading] = useState(true);
-
   const newsRef = useRef();
+  const classes = AppStyles();
   const [news, newsDispatch] = useReducer(newsReducer, {
     page: 0,
     articles: [],
     isLazy: true,
   });
 
-  const getNews = async (page) => {
-    try {
-      const { data } = await apiNyTimes.get("/articlesearch.json", {
-        params: {
-          fq: `news_desk:(${category})`,
-          "api-key": process.env.REACT_APP_API_KEY_NYTIMES,
-          sort: "newest",
-          page,
-        },
+  useEffect(() => {
+    const { current } = newsRef;
+    console.log(current);
+    if (current) {
+      current.onscroll = (e) => {
+        const { scrollHeight, scrollTop, clientHeight } = e.target;
+        if (scrollHeight - (scrollTop + clientHeight) < 100 && !news.isLazy)
+          newsDispatch({ type: "INCREASE_PAGE" });
+      };
+    }
+  }, [news.isLazy]);
+
+  /* Custom suscribed */
+
+  useEffect(() => {
+    let isSuscribed = true;
+
+    getNews(news.page, category)
+      .then((articles) => {
+        console.log(articles);
+        if (isSuscribed) newsDispatch({ type: "SET_ARTICLES", articles });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      console.log(data.response.docs);
-      setArticles(data.response.docs);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  };
 
-  useEffect(() => {
-    getNews(1);
-    console.log("key api", process.env.REACT_APP_API_KEY_NYTIMES);
-  }, []);
-
-  function getScroll(e) {
-    if (document.documentElement.scrollTop > 200) {
-      console.log("mayor a 200 ");
-      console.log(document.documentElement.scrollTop);
-    }
-  }
-
-  useEffect(() => {
-    window.onscroll = () => {
-      getScroll();
+    return () => {
+      isSuscribed = false;
     };
-  }, []);
+  }, [news.page]);
 
   async function saveNews(data) {
     let newNotice = {
@@ -96,21 +89,36 @@ export default function Home() {
 
   return (
     <div>
-      {loading ? (
-        <SpinnerApp />
-      ) : (
-        <div
-          className="grid sm:grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-3 mt-5 px-5 bg-gray-100 py-2"
+      <Grid item xs={12} md={4} lg={3} className={classes.newsGrid}>
+        <Box
+          component={Paper}
+          square
+          className={classes.newsWrapper}
           ref={newsRef}
         >
-          {articles &&
-            articles.map((data, index) => (
-              <div key={index}>
+          {news.articles.length > 0 &&
+            news.articles.map((data, index) => (
+              <Grid key={index} item xs>
                 <NewsCard data={data} user={user} saveNews={saveNews} />
-              </div>
+              </Grid>
             ))}
-        </div>
-      )}
+
+          {(_.isEmpty(news.articles) || news.isLazy) && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "15px",
+              }}
+            >
+              <AmplifyLoadingSpinner />
+            </div>
+          )}
+        </Box>
+      </Grid>
     </div>
   );
-}
+};
+
+export default Home;
