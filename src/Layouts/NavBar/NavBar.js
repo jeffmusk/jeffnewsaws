@@ -37,7 +37,7 @@ export default function NavBar() {
                   color: "red",
                 }}
               >
-                <p>Crear Noticias</p>
+                <p>Crear Noticia</p>
               </NavLink>
 
               <NavLink
