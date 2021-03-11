@@ -1,6 +1,9 @@
 import { makeStyles } from "@material-ui/core";
 
 export const AppStyles = makeStyles({
+  root: {
+    marginTop: "15px",
+  },
   newsGrid: {
     margin: "auto",
   },

@@ -1,22 +1,22 @@
 import React, { useEffect, useState, useRef, useReducer } from "react";
 import { useCurrentUser } from "../../Contex/UserContext";
-import SpinnerApp from "../../Components/Spinner/SpinnerApp";
 import { Paper, Grid, Box } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
 import _ from "lodash";
 import { AmplifyLoadingSpinner } from "@aws-amplify/ui-react";
 
 import { API } from "aws-amplify";
 import * as mutations from "../../graphql/mutations";
 import { toast } from "react-toastify";
-import NewsCard from "../../Components/NewsCard/NewsCard";
+
 import newsReducer from "../../CustomUseReducer/newReducer";
 import { getNews } from "../../Services/news.api";
 import { AppStyles } from "./HomeStyle";
+import NewsCard from "../../Components/Card/NewsCard";
+import { useInView } from "react-intersection-observer";
 
 const Home = () => {
   const { user } = useCurrentUser();
-  const [category, setCategory] = useState("Home");
+  const [category, setCategory] = useState("Technology");
   const newsRef = useRef();
   const classes = AppStyles();
   const [news, newsDispatch] = useReducer(newsReducer, {
@@ -25,20 +25,20 @@ const Home = () => {
     isLazy: true,
   });
 
+  const { ref, inView, entry } = useInView({
+    /* Optional options */
+    threshold: 0,
+  });
+
+  /* scroll inifinito*/
   useEffect(() => {
-    const { current } = newsRef;
-    console.log(current);
-    if (current) {
-      current.onscroll = (e) => {
-        const { scrollHeight, scrollTop, clientHeight } = e.target;
-        if (scrollHeight - (scrollTop + clientHeight) < 100 && !news.isLazy)
-          newsDispatch({ type: "INCREASE_PAGE" });
-      };
+    if (inView && !news.isLazy) {
+      console.log("cargando nuevas fotos...");
+      newsDispatch({ type: "INCREASE_PAGE" });
     }
-  }, [news.isLazy]);
+  }, [inView]);
 
   /* Custom suscribed */
-
   useEffect(() => {
     let isSuscribed = true;
 
@@ -46,6 +46,7 @@ const Home = () => {
       .then((articles) => {
         console.log(articles);
         if (isSuscribed) newsDispatch({ type: "SET_ARTICLES", articles });
+        console.log("agregados elementos");
       })
       .catch((err) => {
         console.log(err);
@@ -58,8 +59,8 @@ const Home = () => {
 
   async function saveNews(data) {
     let newNotice = {
-      title: data.abstract,
-      description: data.lead_paragraph,
+      title: data.headline.main,
+      description: data.abstract,
       imgUrl:
         data.multimedia.length > 0
           ? `https://www.nytimes.com/${data.multimedia[0]?.url}`
@@ -88,33 +89,29 @@ const Home = () => {
   }
   return (
     <div>
-      <Grid item xs={12} md={4} lg={3} className={classes.newsGrid}>
-        <Box
-          component={Paper}
-          square
-          className={classes.newsWrapper}
-          ref={newsRef}
-        >
-          {news.articles.length > 0 &&
-            news.articles.map((data, index) => (
-              <Grid key={index} item xs>
-                <NewsCard data={data} user={user} saveNews={saveNews} />
-              </Grid>
-            ))}
+      <Grid container className={classes.root} spacing={5}>
+        <Grid item xs={12}>
+          <Grid container justify="center" spacing={5}>
+            {!_.isEmpty(news.articles) &&
+              news.articles.map((data, index) => (
+                <Grid key={index} item>
+                  <NewsCard data={data} user={user} saveNews={saveNews} />
+                </Grid>
+              ))}
+          </Grid>
 
-          {(_.isEmpty(news.articles) || news.isLazy) && (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "15px",
-              }}
-            >
-              <AmplifyLoadingSpinner />
-            </div>
-          )}
-        </Box>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "25px",
+            }}
+            ref={ref}
+          >
+            <AmplifyLoadingSpinner />
+          </div>
+        </Grid>
       </Grid>
     </div>
   );
