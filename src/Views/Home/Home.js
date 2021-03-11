@@ -47,6 +47,7 @@ export default function Home() {
 
   useEffect(() => {
     getNews(1);
+    console.log("key api", process.env.REACT_APP_API_KEY_NYTIMES);
   }, []);
 
   function getScroll(e) {
