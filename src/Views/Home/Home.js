@@ -86,7 +86,6 @@ const Home = () => {
       });
     }
   }
-
   return (
     <div>
       <Grid item xs={12} md={4} lg={3} className={classes.newsGrid}>
