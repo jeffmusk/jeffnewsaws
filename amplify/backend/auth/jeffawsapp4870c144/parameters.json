@@ -1,6 +1,6 @@
 {
     "identityPoolName": "jeffawsapp4870c144_identitypool_4870c144",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "jeffaw4870c144",
     "userPoolName": "jeffawsapp4870c144_userpool_4870c144",
     "autoVerifiedAttributes": [

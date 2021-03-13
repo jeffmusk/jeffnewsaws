@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef, useReducer } from "react";
-import { Paper, Grid, Box } from "@material-ui/core";
+import React, { useEffect, useState, useReducer } from "react";
+import { Grid } from "@material-ui/core";
 import _ from "lodash";
 import { AmplifyLoadingSpinner } from "@aws-amplify/ui-react";
 import { toast } from "react-toastify";
@@ -17,7 +17,7 @@ import NewsCard from "../../Components/Card/NewsCard";
 const Home = () => {
   const { user } = useCurrentUser();
   const [category, setCategory] = useState("Technology");
-  const newsRef = useRef();
+
   const classes = AppStyles();
   const [news, newsDispatch] = useReducer(newsReducer, {
     page: 0,

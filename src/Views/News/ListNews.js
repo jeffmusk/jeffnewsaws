@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { API } from "aws-amplify";
+import { API, Storage } from "aws-amplify";
 import * as queries from "../../graphql/queries";
 import * as mutations from "../../graphql/mutations";
 import SpinnerApp from "../../Components/Spinner/SpinnerApp";
 import FormNews from "./FormNews";
+import { useCurrentUser } from "../../Contex/UserContext";
 
 const initialFormState = {
   id: "",
@@ -18,7 +19,10 @@ export default function ListNews() {
   const [listnews, setListnews] = useState(false);
   const [editNews, setEditNews] = useState(false);
   const [formState, setFormState] = useState(initialFormState);
+  const [seletedFile, setSeletedFile] = useState(null);
+  const [testImage, setTestImage] = useState(null);
 
+  const { user } = useCurrentUser();
   async function getNews() {
     setIsLoading(true);
     const listNews = await API.graphql({ query: queries.listNewss });
@@ -48,9 +52,31 @@ export default function ListNews() {
     setEditNews(true);
   }
 
+  const selectImage = (e) => {
+    if (!e.target.files[0]) return;
+    var file = e.target.files[0];
+    setSeletedFile(file);
+    var reader = new FileReader();
+    /* let urlFile = URL.createObjectURL(file); */
+    reader.onloadend = () => {
+      setFormState(() => ({ ...formState, imgUrl: reader.result }));
+    };
+    reader.readAsDataURL(file);
+  };
+
   async function submit() {
-    console.log(formState);
-    await API.graphql({
+    if (seletedFile) {
+      const result = await Storage.put(
+        `${user.username}/${formState.id}.jpg`,
+        seletedFile
+      );
+      const urlImage = await Storage.get(
+        `${user.username}/${formState.id}.jpg`
+      );
+      setTestImage(urlImage);
+      console.log(urlImage);
+    }
+    /*  await API.graphql({
       query: mutations.updateNews,
       variables: {
         input: formState,
@@ -62,7 +88,7 @@ export default function ListNews() {
       })
       .catch((err) => {
         console.log(err);
-      });
+      }); */
   }
 
   function cancel() {
@@ -78,16 +104,18 @@ export default function ListNews() {
       query: mutations.deleteNews,
       variables: { input: { id } },
     });
+    console.log(result);
   }
 
   return (
     <div>
       {isLoading && <SpinnerApp />}
-
+      {testImage && <img src={testImage} alt="img" />}
       {editNews ? (
         <FormNews
           formState={formState}
           onChange={onChange}
+          selectImage={selectImage}
           submit={submit}
           typeForm={"edit"}
           cancel={cancel}

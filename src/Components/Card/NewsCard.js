@@ -58,7 +58,7 @@ export default function NewsCard(props) {
         )}
 
         <Button size="small" color="primary">
-          <a href={data.web_url} target="_blank">
+          <a href={data.web_url} target="_blank" rel="noreferrer">
             Leer Noticias
           </a>
         </Button>

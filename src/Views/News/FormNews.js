@@ -1,11 +1,11 @@
 import React from "react";
 
 export default function FormNews(props) {
-  const { formState, onChange, submit, typeForm, cancel } = props;
+  const { formState, onChange, submit, typeForm, selectImage, cancel } = props;
 
   return (
     <div
-      className="h-screen overflow-hidden flex items-center justify-center "
+      className=" overflow-hidden flex items-center justify-center pb-5 "
       style={{ background: "#edf2f7" }}
     >
       <div className="max-w-2xl bg-white py-6 px-2 m-auto w-full mt-7 shadow-lg rounded-md">
@@ -39,11 +39,40 @@ export default function FormNews(props) {
               <option value="politica">politica</option>
             </select>
           </div>
-
-          <div className="col-span-2 lg:col-span-2">
+          {/* col-span-2 lg:col-span-2 */}
+          <div className="col-span-2 lg:col-span-2 grid">
+            <div className="grid grid-cols-5 gap-2">
+              <img
+                src={formState.imgUrl}
+                alt="Sin imagen"
+                className="col-span-3 max-h-40"
+              />
+              <div className=" col-span-2 flex w-full items-center justify-center bg-grey-lighter">
+                <label className=" flex flex-col items-center px-2 py-2 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-blue-500">
+                  <svg
+                    className="w-8 h-8 "
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                  </svg>
+                  <span className="mt-2 text-base leading-normal">
+                    Seleccione una Imagen
+                  </span>
+                  <input
+                    type="file"
+                    className="hidden"
+                    onChange={(e) => {
+                      selectImage(e);
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
             <input
               type="text"
-              className="border-solid border-gray-300 border-2 p-3 md:text-xl w-full rounded-xl shadow-md"
+              className="border-solid border-gray-300 border-2 p-3 mt-2 w-full  md:text-md rounded-xl shadow-md lg:col-span-3 "
               placeholder="Url de imagen"
               name="imgUrl"
               onChange={onChange}
