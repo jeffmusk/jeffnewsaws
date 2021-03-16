@@ -20,20 +20,25 @@ export default function ListNews() {
   const [editNews, setEditNews] = useState(false);
   const [formState, setFormState] = useState(initialFormState);
   const [seletedFile, setSeletedFile] = useState(null);
-  const [testImage, setTestImage] = useState(null);
+  const [updateNews, setUpdateNews] = useState(false);
 
   const { user } = useCurrentUser();
   async function getNews() {
     setIsLoading(true);
     const listNews = await API.graphql({ query: queries.listNewss });
     setListnews(listNews.data.listNewss.items);
-
     setIsLoading(false);
   }
 
   useEffect(() => {
     getNews();
   }, []);
+
+  useEffect(() => {
+    if (updateNews) {
+      uploadChancesNews();
+    }
+  }, [updateNews]);
 
   function onChange(e) {
     e.persist();
@@ -65,31 +70,36 @@ export default function ListNews() {
   };
 
   async function submit() {
+    const nameImage = `${user.username}/${formState.id}.jpg`;
     if (seletedFile) {
-      const result = await Storage.put(
-        `${user.username}/${formState.id}.jpg`,
-        seletedFile
-      );
-      const urlImage = await Storage.get(
-        `${user.username}/${formState.id}.jpg`
-      );
-      setTestImage(urlImage);
-      console.log(urlImage);
+      Storage.put(nameImage, seletedFile)
+        .then(async (result) => {
+          console.log(result);
+          const urlImage = await Storage.get(nameImage);
+          setFormState(() => ({ ...formState, imgUrl: urlImage }));
+          setUpdateNews(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    /*  await API.graphql({
+  }
+
+  const uploadChancesNews = () => {
+    API.graphql({
       query: mutations.updateNews,
       variables: {
         input: formState,
       },
     })
       .then((data) => {
-        console.log(data);
+        setUpdateNews(false);
         setEditNews(false);
       })
       .catch((err) => {
         console.log(err);
-      }); */
-  }
+      });
+  };
 
   function cancel() {
     setFormState(initialFormState);
@@ -110,7 +120,7 @@ export default function ListNews() {
   return (
     <div>
       {isLoading && <SpinnerApp />}
-      {testImage && <img src={testImage} alt="img" />}
+
       {editNews ? (
         <FormNews
           formState={formState}
