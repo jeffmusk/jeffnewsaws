@@ -50,6 +50,7 @@ function App() {
             currectUser={currentUser}
             component={News}
           />
+
           <PrivateRoutes
             path="/listnews"
             currectUser={currentUser}

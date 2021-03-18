@@ -57,6 +57,7 @@ const Home = () => {
     };
   }, [news.page]);
 
+
   async function saveNews(data) {
     let newNotice = {
       title: data.headline.main,
@@ -87,9 +88,22 @@ const Home = () => {
       });
     }
   }
+
   return (
     <div>
-      <Grid container className={classes.root} spacing={5}>
+      <div className="flex flex-row flex-wrap mx-auto justify-center space-x-4 mt-5">
+        <div className="w-32 h-32 bg-gray-200 ">
+
+        </div>
+        <div className="w-32 h-32 bg-gray-200 ">
+
+        </div>
+        <div className="w-32 h-32 bg-gray-200 transition duration-500 ease-in-out hover:bg-red-200">
+
+        </div>
+      </div>
+
+    {/*  <Grid container className={classes.root} spacing={5}>
         <Grid item xs={12}>
           <ResponsiveMasonry
             columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
@@ -110,13 +124,15 @@ const Home = () => {
               justifyContent: "center",
               alignItems: "center",
               marginTop: "25px",
+
             }}
             ref={ref}
           >
             <AmplifyLoadingSpinner />
           </div>
         </Grid>
-      </Grid>
+      </Grid>*/}
+
     </div>
   );
 };
