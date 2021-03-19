@@ -148,40 +148,9 @@ export default function ListNews() {
                     saveNews={false}
                     isEditCard={true}
                   />
-                </div>
-
-                /* <div className="p-8 bg-white" key={data.id}>
-                  <a href={data.url} target="blanck">
-                    <img
-                      className="rounded-lg w-full"
-                      src={data.imgUrl}
-                      alt="Sin imagen"
-                    />
-                  </a>
-
-                  <p className="text-indigo-500 font-semibold text-base mt-2">
-                    {data.MetaData}
-                  </p>
-
-                  <h1 className="font-semibold text-gray-900 leading-none text-xl mt-1 capitalize truncate">
-                    {data.title}
-                  </h1>
-
-                  <div className="max-w-full">
-                    <p className="text-base font-medium tracking-wide text-gray-600 mt-1">
-                      {data.description}
-                    </p>
-                  </div>
-                  <div className="flex items-center space-x-1 mt-5">
-                    <div>
-                      <p className="text-gray-500 font-semibold text-sm">
-                        {data.createdAt}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-1 mt-5 grid-cols-2">
+                  <div className=" rounded -mt-2 bg-white w-full h-10 flex justify-between shadow-md px-6 py-2 ">
                     <button
-                      className="py-2 px-4 bg-red-700 text-white font-bold w-full sm:w-32 rounded-xl shadow-lg"
+                      className="text-red-400  hover:text-red-400"
                       onClick={() => {
                         if (window.confirm("Deseas eliminar la noticia")) {
                           deleteNews(data);
@@ -191,7 +160,7 @@ export default function ListNews() {
                       Eliminar
                     </button>
                     <button
-                      className="py-2 px-4 bg-blue-500 text-white font-bold w-full sm:w-32 rounded-xl shadow-lg"
+                      className="text-indigo-500  hover:text-red-400"
                       onClick={() => {
                         editNewsChange(data);
                       }}
@@ -200,7 +169,6 @@ export default function ListNews() {
                     </button>
                   </div>
                 </div>
-              */
               ))}
           </div>
         </div>

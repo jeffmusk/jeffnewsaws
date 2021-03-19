@@ -3,6 +3,30 @@ import React from "react";
 export default function NewsCard(props) {
   const { data, user, saveNews, isEditCard } = props;
 
+  const ButtonsSection = () => (
+    <div className="px-6 py-2 flex justify-between ">
+      <a
+        href={data.web_url}
+        target="_blank"
+        rel="noreferrer"
+        className="text-indigo-500  hover:text-red-400"
+      >
+        Leer Mas
+      </a>
+
+      {user && !isEditCard && (
+        <button
+          className="text-indigo-600  hover:text-red-400 "
+          onClick={() => {
+            saveNews(data);
+          }}
+        >
+          Guardar
+        </button>
+      )}
+    </div>
+  );
+
   const getDay = (data, isEditCard) => {
     if (isEditCard) {
       let dateGmt = new Date(data.createdAt);
@@ -47,7 +71,7 @@ export default function NewsCard(props) {
   return (
     <div
       className=" max-w-xs  max-w-xs rounded
-        overflow-hidden shadow-lg my-2 bg-white "
+        overflow-hidden shadow-lg mt-2 bg-white "
     >
       <div className="relative ">
         <div
@@ -62,7 +86,9 @@ export default function NewsCard(props) {
           </p>
         </div>
         {isEditCard ? (
-          <img className="w-full " src={data.imgUrl} alt="montaña" />
+          <a href={data.url} target="_blank" rel="noopener noreferrer">
+            <img className="w-full " src={data.imgUrl} alt="Sin imagen" />
+          </a>
         ) : (
           <img
             className="w-full "
@@ -71,7 +97,7 @@ export default function NewsCard(props) {
                 ? "https://www.freeiconspng.com/uploads/no-image-icon-13.png"
                 : `https://www.nytimes.com/${data.multimedia[0]?.url}`
             }
-            alt="montaña"
+            alt="Sin imagen"
           />
         )}
       </div>
@@ -83,26 +109,8 @@ export default function NewsCard(props) {
           {isEditCard ? data.description : data.abstract}
         </p>
       </div>
-      <div className="px-6 py-2 flex justify-between ">
-        <a
-          href={isEditCard ? data.url : data.web_url}
-          target="_blank"
-          rel="noreferrer"
-          className="text-indigo-500  hover:text-red-400 "
-        >
-          Leer Mas{" "}
-        </a>
-        {user && !isEditCard && (
-          <button
-            className="text-indigo-600  hover:text-red-400 "
-            onClick={() => {
-              saveNews(data);
-            }}
-          >
-            Guardar
-          </button>
-        )}
-      </div>
+
+      {!isEditCard && <ButtonsSection />}
     </div>
   );
 }

@@ -100,21 +100,6 @@ const Home = () => {
               />
             </div>
           ))}
-
-        {/*
-
-          <ResponsiveMasonry
-              columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
-          >
-            <Masonry>
-              {!_.isEmpty(news.articles) &&
-              news.articles.map((data, index) => (
-                  img
-
-              ))}
-            </Masonry>
-          </ResponsiveMasonry>
-*/}
       </div>
 
       <div
