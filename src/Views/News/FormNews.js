@@ -95,9 +95,10 @@ export default function FormNews(props) {
           <div className="col-span-2 text-right">
             {typeForm === "create" && (
               <button
-                className="py-3 px-6 bg-green-500 text-white font-bold w-full  rounded-xl shadow-lg"
+                className="py-3 px-6 bg-green-500 text-white font-bold w-full  rounded-xl shadow-lg "
                 onClick={submit}
               >
+
                 Crear Noticia
               </button>
             )}

@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useReducer } from "react";
 import "./HomeStyle.css";
-import { Grid } from "@material-ui/core";
+
 import _ from "lodash";
 import { AmplifyLoadingSpinner } from "@aws-amplify/ui-react";
 import { toast } from "react-toastify";
 import { API } from "aws-amplify";
 import { useInView } from "react-intersection-observer";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+
 
 import { useCurrentUser } from "../../Contex/UserContext";
 import * as mutations from "../../graphql/mutations";
@@ -41,21 +41,21 @@ const  Home = () => {
 
   /* Custom suscribed */
   useEffect(() => {
-    /*let isSuscribed = true;
+    let isSuscribed = true;
 
     getNews(news.page, category)
-      .then((articles) => {
-        console.log(articles);
-        if (isSuscribed) newsDispatch({ type: "SET_ARTICLES", articles });
-        console.log("agregados elementos");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((articles) => {
+          console.log(articles);
+          if (isSuscribed) newsDispatch({ type: "SET_ARTICLES", articles });
+          console.log("agregados elementos");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
     return () => {
       isSuscribed = false;
-    };*/
+    };
   }, [news.page]);
 
 
@@ -64,9 +64,9 @@ const  Home = () => {
       title: data.headline.main,
       description: data.abstract,
       imgUrl:
-        data.multimedia.length > 0
-          ? `https://www.nytimes.com/${data.multimedia[0]?.url}`
-          : "https://www.freeiconspng.com/uploads/no-image-icon-13.png",
+          data.multimedia.length > 0
+              ? `https://www.nytimes.com/${data.multimedia[0]?.url}`
+              : "https://www.freeiconspng.com/uploads/no-image-icon-13.png",
       url: data.web_url,
       author: data.source,
     };
@@ -90,33 +90,41 @@ const  Home = () => {
     }
   }
 
+
+
+
   return (
-    <div>
-      <div className="flex flex-row flex-wrap mx-auto justify-center space-x-4 mt-5  ">
-      <NewsCard/>
+      <div>
+        <div className="flex flex-row flex-wrap mx-auto justify-center space-x-4 mt-5 bg-gray-100 pt-3 ">
+
+           { !_.isEmpty(news.articles) &&
+        news.articles.map((data, index) => (
+            <div key={index} >
+              <NewsCard data={data} user={user} saveNews={saveNews}/>
+            </div>
+
+        ))}
 
 
+{/*
 
-      </div>
-
-
-
-    {/*  <Grid container className={classes.root} spacing={5}>
-        <Grid item xs={12}>
           <ResponsiveMasonry
-            columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
+              columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
           >
             <Masonry>
               {!_.isEmpty(news.articles) &&
-                news.articles.map((data, index) => (
-                  <Grid key={index} item>
-                    <NewsCard data={data} user={user} saveNews={saveNews} />
-                  </Grid>
-                ))}
+              news.articles.map((data, index) => (
+                  img
+
+              ))}
             </Masonry>
           </ResponsiveMasonry>
+*/}
 
-          <div
+
+        </div>
+
+        <div
             style={{
               display: "flex",
               justifyContent: "center",
@@ -125,13 +133,12 @@ const  Home = () => {
 
             }}
             ref={ref}
-          >
-            <AmplifyLoadingSpinner />
-          </div>
-        </Grid>
-      </Grid>*/}
+        >
+          <AmplifyLoadingSpinner />
+        </div>
 
-    </div>
+
+      </div>
   );
 };
 
