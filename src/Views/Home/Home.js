@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useReducer } from "react";
+import "./HomeStyle.css";
 import { Grid } from "@material-ui/core";
 import _ from "lodash";
 import { AmplifyLoadingSpinner } from "@aws-amplify/ui-react";
@@ -11,14 +12,14 @@ import { useCurrentUser } from "../../Contex/UserContext";
 import * as mutations from "../../graphql/mutations";
 import newsReducer from "../../CustomUseReducer/newReducer";
 import { getNews } from "../../Services/news.api";
-import { AppStyles } from "./HomeStyle";
 import NewsCard from "../../Components/Card/NewsCard";
 
-const Home = () => {
+
+const  Home = () => {
   const { user } = useCurrentUser();
   const [category, setCategory] = useState("Technology");
 
-  const classes = AppStyles();
+
   const [news, newsDispatch] = useReducer(newsReducer, {
     page: 0,
     articles: [],
@@ -40,7 +41,7 @@ const Home = () => {
 
   /* Custom suscribed */
   useEffect(() => {
-    let isSuscribed = true;
+    /*let isSuscribed = true;
 
     getNews(news.page, category)
       .then((articles) => {
@@ -54,7 +55,7 @@ const Home = () => {
 
     return () => {
       isSuscribed = false;
-    };
+    };*/
   }, [news.page]);
 
 
@@ -91,17 +92,14 @@ const Home = () => {
 
   return (
     <div>
-      <div className="flex flex-row flex-wrap mx-auto justify-center space-x-4 mt-5">
-        <div className="w-32 h-32 bg-gray-200 ">
+      <div className="flex flex-row flex-wrap mx-auto justify-center space-x-4 mt-5  ">
+      <NewsCard/>
 
-        </div>
-        <div className="w-32 h-32 bg-gray-200 ">
 
-        </div>
-        <div className="w-32 h-32 bg-gray-200 transition duration-500 ease-in-out hover:bg-red-200">
 
-        </div>
       </div>
+
+
 
     {/*  <Grid container className={classes.root} spacing={5}>
         <Grid item xs={12}>
@@ -138,3 +136,4 @@ const Home = () => {
 };
 
 export default Home;
+
