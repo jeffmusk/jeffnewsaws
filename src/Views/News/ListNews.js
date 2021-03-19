@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { API, Storage } from "aws-amplify";
+
 import * as queries from "../../graphql/queries";
 import * as mutations from "../../graphql/mutations";
 import SpinnerApp from "../../Components/Spinner/SpinnerApp";
 import FormNews from "./FormNews";
 import { useCurrentUser } from "../../Contex/UserContext";
+import NewsCard from "../../Components/Card/NewsCard";
+import _ from "lodash";
 
 const initialFormState = {
   id: "",
@@ -136,9 +139,18 @@ export default function ListNews() {
           style={{ background: "#edf2f7" }}
         >
           <div className="grid sm:grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-3 mt-5 px-5">
-            {listnews &&
-              listnews.map((data) => (
-                <div className="p-8 bg-white" key={data.id}>
+            {!_.isEmpty(listnews) &&
+              listnews.map((data, index) => (
+                <div key={index}>
+                  <NewsCard
+                    data={data}
+                    user={user}
+                    saveNews={false}
+                    isEditCard={true}
+                  />
+                </div>
+
+                /* <div className="p-8 bg-white" key={data.id}>
                   <a href={data.url} target="blanck">
                     <img
                       className="rounded-lg w-full"
@@ -188,6 +200,7 @@ export default function ListNews() {
                     </button>
                   </div>
                 </div>
+              */
               ))}
           </div>
         </div>

@@ -6,14 +6,4 @@
 @apply bg-blue-500 text-white;
 }
 
-.btn-blue:hover {
-@apply bg-blue-700;
-}
-.hide-scroll-bar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-.hide-scroll-bar::-webkit-scrollbar {
-    display: none;
-}
 

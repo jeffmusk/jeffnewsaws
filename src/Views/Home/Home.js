@@ -7,18 +7,15 @@ import { toast } from "react-toastify";
 import { API } from "aws-amplify";
 import { useInView } from "react-intersection-observer";
 
-
 import { useCurrentUser } from "../../Contex/UserContext";
 import * as mutations from "../../graphql/mutations";
 import newsReducer from "../../CustomUseReducer/newReducer";
 import { getNews } from "../../Services/news.api";
 import NewsCard from "../../Components/Card/NewsCard";
 
-
-const  Home = () => {
+const Home = () => {
   const { user } = useCurrentUser();
   const [category, setCategory] = useState("Technology");
-
 
   const [news, newsDispatch] = useReducer(newsReducer, {
     page: 0,
@@ -44,29 +41,28 @@ const  Home = () => {
     let isSuscribed = true;
 
     getNews(news.page, category)
-        .then((articles) => {
-          console.log(articles);
-          if (isSuscribed) newsDispatch({ type: "SET_ARTICLES", articles });
-          console.log("agregados elementos");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      .then((articles) => {
+        console.log(articles);
+        if (isSuscribed) newsDispatch({ type: "SET_ARTICLES", articles });
+        console.log("agregados elementos");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     return () => {
       isSuscribed = false;
     };
   }, [news.page]);
 
-
   async function saveNews(data) {
     let newNotice = {
       title: data.headline.main,
       description: data.abstract,
       imgUrl:
-          data.multimedia.length > 0
-              ? `https://www.nytimes.com/${data.multimedia[0]?.url}`
-              : "https://www.freeiconspng.com/uploads/no-image-icon-13.png",
+        data.multimedia.length > 0
+          ? `https://www.nytimes.com/${data.multimedia[0]?.url}`
+          : "https://www.freeiconspng.com/uploads/no-image-icon-13.png",
       url: data.web_url,
       author: data.source,
     };
@@ -90,23 +86,22 @@ const  Home = () => {
     }
   }
 
-
-
-
   return (
-      <div>
-        <div className="flex flex-row flex-wrap mx-auto justify-center space-x-4 mt-5 bg-gray-100 pt-3 ">
-
-           { !_.isEmpty(news.articles) &&
-        news.articles.map((data, index) => (
-            <div key={index} >
-              <NewsCard data={data} user={user} saveNews={saveNews}/>
+    <div>
+      <div className="flex flex-row flex-wrap mx-auto justify-center space-x-4 mt-5 bg-gray-100 pt-3 ">
+        {!_.isEmpty(news.articles) &&
+          news.articles.map((data, index) => (
+            <div key={index}>
+              <NewsCard
+                data={data}
+                user={user}
+                saveNews={saveNews}
+                isEditCard={false}
+              />
             </div>
+          ))}
 
-        ))}
-
-
-{/*
+        {/*
 
           <ResponsiveMasonry
               columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
@@ -120,27 +115,21 @@ const  Home = () => {
             </Masonry>
           </ResponsiveMasonry>
 */}
-
-
-        </div>
-
-        <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "25px",
-
-            }}
-            ref={ref}
-        >
-          <AmplifyLoadingSpinner />
-        </div>
-
-
       </div>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "25px",
+        }}
+        ref={ref}
+      >
+        <AmplifyLoadingSpinner />
+      </div>
+    </div>
   );
 };
 
 export default Home;
-

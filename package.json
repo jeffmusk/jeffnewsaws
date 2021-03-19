@@ -13,11 +13,9 @@
     "aws-amplify": "^3.3.20",
     "axios": "^0.21.1",
     "lodash": "^4.17.21",
-    "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-intersection-observer": "^8.31.0",
-    "react-masonry-component": "^6.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
     "react-toastify": "^7.0.3",
@@ -53,6 +51,7 @@
     "@tailwindcss/postcss7-compat": "^2.0.4",
     "autoprefixer": "^9",
     "postcss": "^7",
+    "prettier": "2.2.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   }
 }
