@@ -22,7 +22,7 @@ export default function ListNews() {
   const [listnews, setListnews] = useState(false);
   const [editNews, setEditNews] = useState(false);
   const [formState, setFormState] = useState(initialFormState);
-  const [seletedFile, setSeletedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [updateNews, setUpdateNews] = useState(false);
 
   const { user } = useCurrentUser();
@@ -63,7 +63,7 @@ export default function ListNews() {
   const selectImage = (e) => {
     if (!e.target.files[0]) return;
     var file = e.target.files[0];
-    setSeletedFile(file);
+    setSelectedFile(file);
     var reader = new FileReader();
     /* let urlFile = URL.createObjectURL(file); */
     reader.onloadend = () => {
@@ -74,8 +74,8 @@ export default function ListNews() {
 
   async function submit() {
     const nameImage = `${user.username}/${formState.id}.jpg`;
-    if (seletedFile) {
-      Storage.put(nameImage, seletedFile)
+    if (selectedFile) {
+      Storage.put(nameImage, selectedFile)
         .then(async (result) => {
           console.log(result);
           const urlImage = await Storage.get(nameImage);
@@ -113,11 +113,15 @@ export default function ListNews() {
     const newNewsArray = listnews.filter((news) => news.id !== id);
     console.log(newNewsArray);
     setListnews(newNewsArray);
-    let result = await API.graphql({
-      query: mutations.deleteNews,
-      variables: { input: { id } },
-    });
-    console.log(result);
+    try {
+      await API.graphql({
+        query: mutations.deleteNews,
+        variables: { input: { id } },
+      });
+    } catch (err) {
+      console.log("No fu posible eliminar la noticia");
+      console.log(err);
+    }
   }
 
   return (
@@ -148,7 +152,7 @@ export default function ListNews() {
                     saveNews={false}
                     isEditCard={true}
                   />
-                  <div className=" rounded -mt-2 bg-white w-full h-10 flex justify-between shadow-md px-6 py-2 ">
+                  <div className=" rounded -mt-2 bg-white w-full h-10 flex justify-between shadow-md px-6 py-2   ">
                     <button
                       className="text-red-400  hover:text-red-400"
                       onClick={() => {
