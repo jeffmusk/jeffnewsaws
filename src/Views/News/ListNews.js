@@ -20,7 +20,7 @@ const initialFormState = {
 export default function ListNews() {
   const [isLoading, setIsLoading] = useState(true);
   const [listnews, setListnews] = useState(false);
-  const [editNews, setEditNews] = useState(false);
+  const [editNews, setEditNews] = useStgate(false);
   const [formState, setFormState] = useState(initialFormState);
   const [selectedFile, setSelectedFile] = useState(null);
   const [updateNews, setUpdateNews] = useState(false);
