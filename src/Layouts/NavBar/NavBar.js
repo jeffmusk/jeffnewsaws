@@ -1,7 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useCurrentUser } from "../../Contex/UserContext";
+import "./NavBar.css";
 
 export default function NavBar() {
+  const { user } = useCurrentUser();
   return (
     <div>
       <div className="relative bg-white">
@@ -9,11 +12,19 @@ export default function NavBar() {
           <nav className="flex justify-between items-center border-b-2 border-gray-100 py-6">
             {/* logo */}
             <div className="flex  flex-1">
-              <img
-                className="h-8 w-auto "
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                alt="logo"
-              ></img>
+              <NavLink
+                to="/"
+                activeStyle={{
+                  fontWeight: "bold",
+                  color: "red",
+                }}
+              >
+                <img
+                  className="h-8 w-auto "
+                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                  alt="logo"
+                ></img>
+              </NavLink>
             </div>
 
             {/* Menu hamburguesa */}
@@ -43,7 +54,7 @@ export default function NavBar() {
             <div className="hidden md:flex space-x-6 justify-center flex-1">
               <NavLink
                 to="/listnews"
-                className="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="navLink  "
                 activeStyle={{
                   fontWeight: "bold",
                   color: "#6366F1",
@@ -67,7 +78,7 @@ export default function NavBar() {
               </NavLink>
               <NavLink
                 to="/news"
-                className="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="navLink"
                 activeStyle={{
                   fontWeight: "bold",
                   color: "#6366F1",
@@ -91,7 +102,7 @@ export default function NavBar() {
               </NavLink>
               <NavLink
                 to="/search"
-                className="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="navLink"
                 activeStyle={{
                   fontWeight: "bold",
                   color: "#6366F1",
@@ -116,55 +127,42 @@ export default function NavBar() {
 
             {/* link 2  */}
             <div className="hidden md:flex space-x-4 justify-end flex-1  ">
-              <div className=" relative flex items-center justify-between sm:h-10 lg:justify-start">
-                <div className="md:ml-10 md:pr-4 md:space-x-8">
-                  <NavLink
-                    to="/listnews"
-                    className="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    activeStyle={{
-                      fontWeight: "bold",
-                      color: "#6366F1",
-                    }}
-                  >
-                    <span>Mis Noticias</span>
-                  </NavLink>
-                  <NavLink
-                    to="/listnews"
-                    className="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    activeStyle={{
-                      fontWeight: "bold",
-                      color: "#6366F1",
-                    }}
-                  >
-                    <span>Mis Noticias</span>
-                  </NavLink>
-                </div>
-              </div>
-              {/*  <div className="relative">
-                
+              {user ? (
                 <NavLink
-                  to="/listnews"
-                  className="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  to="/profile"
+                  className="navLink"
                   activeStyle={{
                     fontWeight: "bold",
                     color: "#6366F1",
                   }}
                 >
-                  <span>Mis Noticias</span>
+                  <svg
+                    className="w-8 h-8"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
                 </NavLink>
-
+              ) : (
                 <NavLink
-                  to="/news"
-                  className="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  to="/login"
+                  className="px-6 py-2 bg-indigo-500 text-white rounded-lg font-semibold shadow-lg"
                   activeStyle={{
                     fontWeight: "bold",
                     color: "#6366F1",
                   }}
                 >
-                  <span>Crear Noticia</span>
+                  <span>Iniciar Sesión</span>
                 </NavLink>
-              </div>
-            */}
+              )}
             </div>
           </nav>
         </div>

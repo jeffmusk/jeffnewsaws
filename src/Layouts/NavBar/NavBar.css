@@ -1,0 +1,3 @@
+.navLink {
+  @apply text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-indigo-500;
+}

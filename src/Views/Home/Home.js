@@ -88,7 +88,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className="flex flex-row flex-wrap mx-auto justify-center space-x-4 mt-5 bg-gray-100 pt-3 ">
+      <div className="flex flex-row flex-wrap mx-auto justify-center space-x-4 bg-gray-100 pt-5 ">
         {!_.isEmpty(news.articles) &&
           news.articles.map((data, index) => (
             <div key={index}>
