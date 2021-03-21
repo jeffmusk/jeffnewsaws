@@ -28,6 +28,7 @@ export default function ListNews() {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const { user } = useCurrentUser();
+
   async function getNews() {
     setIsLoading(true);
     const listNews = await API.graphql({ query: queries.listNewss });
@@ -49,7 +50,6 @@ export default function ListNews() {
 
     setListnews(newsFromApi);
     setIsLoading(false);
-    console.log(listNews.data.listNewss.items);
   }
 
   useEffect(() => {
@@ -100,32 +100,35 @@ export default function ListNews() {
     }
   };
 
-  async function submit() {
-    console.log(formState);
-    uploadChancesNews(formState);
-    /* const nameImage = `${user.username}/${formState.id}.jpg`;
-    if (selectedFile) {
-      Storage.put(nameImage, selectedFile)
-        .then(async (result) => {
-          console.log(result);
-          const urlImage = await Storage.get(nameImage);
-          setFormState(() => ({ ...formState, imgUrl: urlImage }));
-          uploadChancesNews();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } */
-  }
+  const updateLocalListNews = (data) => {
+    let noteEdited = listnews.find((i) => i.id === data.id);
 
-  const uploadChancesNews = (formState) => {
+    const newListArray = listnews.map((item) => {
+      if (item.id === data.id) {
+        return {
+          ...noteEdited,
+          title: data.title,
+          description: data.description,
+          imgUrl: data.imgUrl,
+          nameFile: data.nameFile,
+          file: data.file,
+        };
+      } else {
+        return item;
+      }
+    });
+
+    setListnews(newListArray);
+  };
+  const uploadChancesNews = (data) => {
     API.graphql({
       query: mutations.updateNews,
       variables: {
         input: formState,
       },
     })
-      .then((data) => {
+      .then((res) => {
+        updateLocalListNews(data);
         console.log("noticia actualizada");
         setEditNews(false);
       })
@@ -141,7 +144,6 @@ export default function ListNews() {
 
   async function deleteNews({ id }) {
     const newNewsArray = listnews.filter((news) => news.id !== id);
-    console.log(newNewsArray);
     setListnews(newNewsArray);
     try {
       await API.graphql({
@@ -164,7 +166,7 @@ export default function ListNews() {
           onChange={onChange}
           selectImage={selectImage}
           selectedFile={selectedFile}
-          submit={submit}
+          submit={uploadChancesNews}
           typeForm={"edit"}
           cancel={cancel}
         />

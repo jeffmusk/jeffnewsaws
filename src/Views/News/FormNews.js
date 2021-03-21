@@ -112,7 +112,7 @@ export default function FormNews(props) {
                 </button>
                 <button
                   className="py-3 px-6 bg-green-500 text-white font-bold w-full  rounded-xl shadow-lg"
-                  onClick={submit}
+                  onClick={() => submit(formState)}
                 >
                   Editar
                 </button>
