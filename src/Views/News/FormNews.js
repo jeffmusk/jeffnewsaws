@@ -1,7 +1,15 @@
 import React from "react";
 
 export default function FormNews(props) {
-  const { formState, onChange, submit, typeForm, selectImage, cancel } = props;
+  const {
+    formState,
+    onChange,
+    submit,
+    typeForm,
+    selectImage,
+    cancel,
+    selectedFile,
+  } = props;
 
   return (
     <div
@@ -43,10 +51,11 @@ export default function FormNews(props) {
           <div className="col-span-2 lg:col-span-2 grid">
             <div className="grid grid-cols-5 gap-2">
               <img
-                src={formState.imgUrl}
+                src={selectedFile ? selectedFile : formState.imgUrl}
                 alt="Sin imagen"
-                className="col-span-3 max-h-40"
+                className="col-span-3 max-h-40 rounded shadow-lg"
               />
+
               <div className=" col-span-2 flex w-full items-center justify-center bg-grey-lighter">
                 <label className=" flex flex-col items-center px-2 py-2 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-blue-500">
                   <svg
@@ -70,14 +79,6 @@ export default function FormNews(props) {
                 </label>
               </div>
             </div>
-            <input
-              type="text"
-              className="border-solid border-gray-300 border-2 p-3 mt-2 w-full  md:text-md rounded-xl shadow-md lg:col-span-3 "
-              placeholder="Url de imagen"
-              name="imgUrl"
-              onChange={onChange}
-              value={formState.imgUrl}
-            />
           </div>
 
           <div className="col-span-2">

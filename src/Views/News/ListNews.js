@@ -16,6 +16,8 @@ const initialFormState = {
   description: "",
   imgUrl: "",
   MetaData: "",
+  nameFile: null,
+  file: null,
 };
 
 export default function ListNews() {
@@ -29,8 +31,25 @@ export default function ListNews() {
   async function getNews() {
     setIsLoading(true);
     const listNews = await API.graphql({ query: queries.listNewss });
-    setListnews(listNews.data.listNewss.items);
+    const newsFromApi = listNews.data.listNewss.items;
+
+    await Promise.all(
+      newsFromApi.map(async (note) => {
+        if (note.file) {
+          const image = await Storage.get(note.nameFile, {
+            bucket: note.file.bucket,
+            region: note.file.region,
+            key: note.file.key,
+          });
+          note.imgUrl = image;
+        }
+        return note;
+      })
+    );
+
+    setListnews(newsFromApi);
     setIsLoading(false);
+    console.log(listNews.data.listNewss.items);
   }
 
   useEffect(() => {
@@ -56,35 +75,35 @@ export default function ListNews() {
 
   const selectImage = (e) => {
     const nameImage = `${user.username}/${formState.id}.jpg`;
-    if (!e.target.files[0]) return;
     let file = e.target.files[0];
-    setSelectedFile(file);
-
-    /* let urlFile = URL.createObjectURL(file); */
-    Storage.put(nameImage, file, {
-      contentType: "image/jpg",
-    }).then((res) => {
-      let newUrl = URL.createObjectURL(file);
-      setFormState(() => ({ ...formState, imgUrl: newUrl }));
-      console.log(res);
-      let image = {
-        name: nameImage,
-        file: {
+    console.log(file);
+    if (file) {
+      Storage.put(nameImage, file, {
+        contentType: "image/jpg",
+      }).then((res) => {
+        let localUrl = URL.createObjectURL(file);
+        let image = {
           bucket: awsExports.aws_user_files_s3_bucket,
           region: awsExports.aws_user_files_s3_bucket_region,
           key: "public/" + nameImage,
-        },
-      };
-      console.log(image);
-    });
-    /*  reader.onloadend = () => {
+        };
+        setFormState(() => ({
+          ...formState,
+          file: image,
+          nameFile: nameImage,
+        }));
+        setSelectedFile(localUrl);
 
-    };
-    reader.readAsDataURL(file);*/
+        console.log(image);
+        console.log(res);
+      });
+    }
   };
 
   async function submit() {
-    const nameImage = `${user.username}/${formState.id}.jpg`;
+    console.log(formState);
+    uploadChancesNews(formState);
+    /* const nameImage = `${user.username}/${formState.id}.jpg`;
     if (selectedFile) {
       Storage.put(nameImage, selectedFile)
         .then(async (result) => {
@@ -96,10 +115,10 @@ export default function ListNews() {
         .catch((err) => {
           console.log(err);
         });
-    }
+    } */
   }
 
-  const uploadChancesNews = () => {
+  const uploadChancesNews = (formState) => {
     API.graphql({
       query: mutations.updateNews,
       variables: {
@@ -144,6 +163,7 @@ export default function ListNews() {
           formState={formState}
           onChange={onChange}
           selectImage={selectImage}
+          selectedFile={selectedFile}
           submit={submit}
           typeForm={"edit"}
           cancel={cancel}

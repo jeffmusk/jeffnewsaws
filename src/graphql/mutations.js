@@ -26,6 +26,12 @@ export const createNews = /* GraphQL */ `
         }
         nextToken
       }
+      file {
+        bucket
+        region
+        key
+      }
+      nameFile
       owner
     }
   }
@@ -55,6 +61,12 @@ export const updateNews = /* GraphQL */ `
         }
         nextToken
       }
+      file {
+        bucket
+        region
+        key
+      }
+      nameFile
       owner
     }
   }
@@ -84,6 +96,12 @@ export const deleteNews = /* GraphQL */ `
         }
         nextToken
       }
+      file {
+        bucket
+        region
+        key
+      }
+      nameFile
       owner
     }
   }
@@ -111,6 +129,12 @@ export const createComment = /* GraphQL */ `
         comments {
           nextToken
         }
+        file {
+          bucket
+          region
+          key
+        }
+        nameFile
         owner
       }
       updatedAt
@@ -140,6 +164,12 @@ export const updateComment = /* GraphQL */ `
         comments {
           nextToken
         }
+        file {
+          bucket
+          region
+          key
+        }
+        nameFile
         owner
       }
       updatedAt
@@ -169,6 +199,12 @@ export const deleteComment = /* GraphQL */ `
         comments {
           nextToken
         }
+        file {
+          bucket
+          region
+          key
+        }
+        nameFile
         owner
       }
       updatedAt
@@ -186,6 +222,7 @@ export const createNotes = /* GraphQL */ `
       description
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -200,6 +237,7 @@ export const updateNotes = /* GraphQL */ `
       description
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -214,6 +252,7 @@ export const deleteNotes = /* GraphQL */ `
       description
       createdAt
       updatedAt
+      owner
     }
   }
 `;

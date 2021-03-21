@@ -23,6 +23,12 @@ export const getNews = /* GraphQL */ `
         }
         nextToken
       }
+      file {
+        bucket
+        region
+        key
+      }
+      nameFile
       owner
     }
   }
@@ -48,6 +54,12 @@ export const listNewss = /* GraphQL */ `
         comments {
           nextToken
         }
+        file {
+          bucket
+          region
+          key
+        }
+        nameFile
         owner
       }
       nextToken
@@ -74,6 +86,12 @@ export const getComment = /* GraphQL */ `
         comments {
           nextToken
         }
+        file {
+          bucket
+          region
+          key
+        }
+        nameFile
         owner
       }
       updatedAt
@@ -102,6 +120,7 @@ export const listComments = /* GraphQL */ `
           createdAt
           updatedAt
           publishedAt
+          nameFile
           owner
         }
         updatedAt
@@ -118,6 +137,7 @@ export const getNotes = /* GraphQL */ `
       description
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -134,6 +154,7 @@ export const listNotess = /* GraphQL */ `
         description
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }

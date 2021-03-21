@@ -23,6 +23,12 @@ export const onCreateNews = /* GraphQL */ `
         }
         nextToken
       }
+      file {
+        bucket
+        region
+        key
+      }
+      nameFile
       owner
     }
   }
@@ -49,6 +55,12 @@ export const onUpdateNews = /* GraphQL */ `
         }
         nextToken
       }
+      file {
+        bucket
+        region
+        key
+      }
+      nameFile
       owner
     }
   }
@@ -75,6 +87,12 @@ export const onDeleteNews = /* GraphQL */ `
         }
         nextToken
       }
+      file {
+        bucket
+        region
+        key
+      }
+      nameFile
       owner
     }
   }
@@ -99,6 +117,12 @@ export const onCreateComment = /* GraphQL */ `
         comments {
           nextToken
         }
+        file {
+          bucket
+          region
+          key
+        }
+        nameFile
         owner
       }
       updatedAt
@@ -125,6 +149,12 @@ export const onUpdateComment = /* GraphQL */ `
         comments {
           nextToken
         }
+        file {
+          bucket
+          region
+          key
+        }
+        nameFile
         owner
       }
       updatedAt
@@ -151,6 +181,12 @@ export const onDeleteComment = /* GraphQL */ `
         comments {
           nextToken
         }
+        file {
+          bucket
+          region
+          key
+        }
+        nameFile
         owner
       }
       updatedAt
@@ -158,35 +194,38 @@ export const onDeleteComment = /* GraphQL */ `
   }
 `;
 export const onCreateNotes = /* GraphQL */ `
-  subscription OnCreateNotes {
-    onCreateNotes {
+  subscription OnCreateNotes($owner: String!) {
+    onCreateNotes(owner: $owner) {
       id
       name
       description
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateNotes = /* GraphQL */ `
-  subscription OnUpdateNotes {
-    onUpdateNotes {
+  subscription OnUpdateNotes($owner: String!) {
+    onUpdateNotes(owner: $owner) {
       id
       name
       description
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteNotes = /* GraphQL */ `
-  subscription OnDeleteNotes {
-    onDeleteNotes {
+  subscription OnDeleteNotes($owner: String!) {
+    onDeleteNotes(owner: $owner) {
       id
       name
       description
       createdAt
       updatedAt
+      owner
     }
   }
 `;

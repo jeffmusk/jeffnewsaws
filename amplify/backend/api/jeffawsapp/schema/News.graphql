@@ -2,7 +2,8 @@ type News @model @auth(rules: [{ allow: owner, queries: null }]) {
   id: ID!
   title: String!
   description: String
-  imgUrl: S3Object
+
+  imgUrl: String
   url: String
   author: String
   MetaData: NewsCategory
@@ -10,6 +11,9 @@ type News @model @auth(rules: [{ allow: owner, queries: null }]) {
   updatedAt: AWSDateTime!
   publishedAt: String
   comments: [Comment] @connection(name: "NewsComments", sortField: "createdAt")
+  # Reference the S3Object type from a field
+  file: S3Object
+  nameFile: String
 }
 
 enum NewsCategory {
