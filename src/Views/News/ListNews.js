@@ -25,7 +25,6 @@ export default function ListNews() {
   const [listnews, setListnews] = useState(false);
   const [editNews, setEditNews] = useState(false);
   const [formState, setFormState] = useState(initialFormState);
-  const [selectedFile, setSelectedFile] = useState(null);
 
   const { user } = useCurrentUser();
 
@@ -80,19 +79,19 @@ export default function ListNews() {
     if (file) {
       Storage.put(nameImage, file, {
         contentType: "image/jpg",
-      }).then((res) => {
-        let localUrl = URL.createObjectURL(file);
+      }).then(async (res) => {
         let image = {
           bucket: awsExports.aws_user_files_s3_bucket,
           region: awsExports.aws_user_files_s3_bucket_region,
           key: "public/" + nameImage,
         };
+        const urlImage = await Storage.get(nameImage, { image });
         setFormState(() => ({
           ...formState,
+          imgUrl: urlImage,
           file: image,
           nameFile: nameImage,
         }));
-        setSelectedFile(localUrl);
 
         console.log(image);
         console.log(res);
@@ -165,7 +164,6 @@ export default function ListNews() {
           formState={formState}
           onChange={onChange}
           selectImage={selectImage}
-          selectedFile={selectedFile}
           submit={uploadChancesNews}
           typeForm={"edit"}
           cancel={cancel}

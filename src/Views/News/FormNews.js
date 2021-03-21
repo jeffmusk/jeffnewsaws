@@ -1,15 +1,7 @@
 import React from "react";
 
 export default function FormNews(props) {
-  const {
-    formState,
-    onChange,
-    submit,
-    typeForm,
-    selectImage,
-    cancel,
-    selectedFile,
-  } = props;
+  const { formState, onChange, submit, typeForm, selectImage, cancel } = props;
 
   return (
     <div
@@ -51,7 +43,7 @@ export default function FormNews(props) {
           <div className="col-span-2 lg:col-span-2 grid">
             <div className="grid grid-cols-5 gap-2">
               <img
-                src={selectedFile ? selectedFile : formState.imgUrl}
+                src={formState.imgUrl}
                 alt="Sin imagen"
                 className="col-span-3 max-h-40 rounded shadow-lg"
               />
