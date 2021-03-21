@@ -28,7 +28,7 @@ const Home = () => {
     threshold: 0,
   });
 
-  /* scroll inifinito*/
+  /* scroll infinito*/
   useEffect(() => {
     if (inView && !news.isLazy) {
       console.log("cargando nuevas fotos...");
@@ -36,14 +36,14 @@ const Home = () => {
     }
   }, [inView]);
 
-  /* Custom suscribed */
+  /* Custom subscribed */
   useEffect(() => {
-    let isSuscribed = true;
+    let isSubscribed = true;
 
     getNews(news.page, category)
       .then((articles) => {
         console.log(articles);
-        if (isSuscribed) newsDispatch({ type: "SET_ARTICLES", articles });
+        if (isSubscribed) newsDispatch({ type: "SET_ARTICLES", articles });
         console.log("agregados elementos");
       })
       .catch((err) => {
@@ -51,7 +51,7 @@ const Home = () => {
       });
 
     return () => {
-      isSuscribed = false;
+      isSubscribed = false;
     };
   }, [news.page]);
 

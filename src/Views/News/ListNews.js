@@ -8,6 +8,7 @@ import FormNews from "./FormNews";
 import { useCurrentUser } from "../../Contex/UserContext";
 import NewsCard from "../../Components/Card/NewsCard";
 import _ from "lodash";
+import awsExports from "../../aws-exports";
 
 const initialFormState = {
   id: "",
@@ -20,10 +21,9 @@ const initialFormState = {
 export default function ListNews() {
   const [isLoading, setIsLoading] = useState(true);
   const [listnews, setListnews] = useState(false);
-  const [editNews, setEditNews] = useStgate(false);
+  const [editNews, setEditNews] = useState(false);
   const [formState, setFormState] = useState(initialFormState);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [updateNews, setUpdateNews] = useState(false);
 
   const { user } = useCurrentUser();
   async function getNews() {
@@ -36,12 +36,6 @@ export default function ListNews() {
   useEffect(() => {
     getNews();
   }, []);
-
-  useEffect(() => {
-    if (updateNews) {
-      uploadChancesNews();
-    }
-  }, [updateNews]);
 
   function onChange(e) {
     e.persist();
@@ -61,15 +55,32 @@ export default function ListNews() {
   }
 
   const selectImage = (e) => {
+    const nameImage = `${user.username}/${formState.id}.jpg`;
     if (!e.target.files[0]) return;
-    var file = e.target.files[0];
+    let file = e.target.files[0];
     setSelectedFile(file);
-    var reader = new FileReader();
+
     /* let urlFile = URL.createObjectURL(file); */
-    reader.onloadend = () => {
-      setFormState(() => ({ ...formState, imgUrl: reader.result }));
+    Storage.put(nameImage, file, {
+      contentType: "image/jpg",
+    }).then((res) => {
+      let newUrl = URL.createObjectURL(file);
+      setFormState(() => ({ ...formState, imgUrl: newUrl }));
+      console.log(res);
+      let image = {
+        name: nameImage,
+        file: {
+          bucket: awsExports.aws_user_files_s3_bucket,
+          region: awsExports.aws_user_files_s3_bucket_region,
+          key: "public/" + nameImage,
+        },
+      };
+      console.log(image);
+    });
+    /*  reader.onloadend = () => {
+
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file);*/
   };
 
   async function submit() {
@@ -80,7 +91,7 @@ export default function ListNews() {
           console.log(result);
           const urlImage = await Storage.get(nameImage);
           setFormState(() => ({ ...formState, imgUrl: urlImage }));
-          setUpdateNews(true);
+          uploadChancesNews();
         })
         .catch((err) => {
           console.log(err);
@@ -96,7 +107,7 @@ export default function ListNews() {
       },
     })
       .then((data) => {
-        setUpdateNews(false);
+        console.log("noticia actualizada");
         setEditNews(false);
       })
       .catch((err) => {

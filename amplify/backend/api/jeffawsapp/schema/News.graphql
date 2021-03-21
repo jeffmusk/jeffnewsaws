@@ -2,7 +2,7 @@ type News @model @auth(rules: [{ allow: owner, queries: null }]) {
   id: ID!
   title: String!
   description: String
-  imgUrl: String
+  imgUrl: S3Object
   url: String
   author: String
   MetaData: NewsCategory
@@ -24,4 +24,10 @@ type Comment @model {
   content: String!
   createdAt: String
   news: News @connection(name: "NewsComments", sortField: "createdAt")
+}
+
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
 }

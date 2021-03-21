@@ -33,10 +33,10 @@ export default function FormNews(props) {
               <option value="default" disabled>
                 Escoja una categoria
               </option>
-              <option value="tecnologia">tecnologia</option>
+              <option value="tecnologia">tecnología</option>
               <option value="deporte">deporte</option>
-              <option value="farandula">farandula</option>
-              <option value="politica">politica</option>
+              <option value="farandula">farándula</option>
+              <option value="politica">política</option>
             </select>
           </div>
           {/* col-span-2 lg:col-span-2 */}
@@ -98,7 +98,6 @@ export default function FormNews(props) {
                 className="py-3 px-6 bg-green-500 text-white font-bold w-full  rounded-xl shadow-lg "
                 onClick={submit}
               >
-
                 Crear Noticia
               </button>
             )}
