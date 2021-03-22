@@ -1,3 +1,33 @@
 .navLink {
   @apply text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-indigo-500;
 }
+
+.navLinkMobile {
+  @apply flex border-b-2 px-5 border-gray-300 justify-center items-center text-gray-500  py-3 font-medium group hover:bg-gray-50 rounded hover:shadow-md;
+}
+
+.navHover {
+  @apply group-hover:text-indigo-500;
+}
+
+.navBar {
+  animation: 1.2s;
+  animation-name: slidein;
+  animation-direction: alternate;
+}
+
+@keyframes slidein {
+  0% {
+    margin-top: -300px;
+    opacity: 0;
+    width: 300%;
+  }
+  75% {
+    opacity: 0.4;
+  }
+  100% {
+    margin-top: 0%;
+    opacity: 1;
+    width: 100%;
+  }
+}
