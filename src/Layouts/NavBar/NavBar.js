@@ -175,7 +175,7 @@ export default function NavBar() {
         <div
           className={` ${
             isVisible && "hidden"
-          } md:hidden bg-gray-200 w-full py-2 px-8 justify-center navBar`}
+          } md:hidden bg-gray-200 w-full py-2 px-8 justify-center navBar shadow-md`}
         >
           <NavLink
             to="/search"
