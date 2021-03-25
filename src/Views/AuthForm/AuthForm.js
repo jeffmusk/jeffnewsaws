@@ -9,8 +9,8 @@ import ForgotPassword from "../CustomForms/ForgotPassword"; */
 import { Auth } from "aws-amplify";
 
 const initialFormState = {
-  email: "jeffpruebas1@gmail.com",
-  password: "J_pruebas1",
+  email: "",
+  password: "",
   authCode: "",
   formType: "signUp",
 };

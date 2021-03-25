@@ -29,7 +29,7 @@ function Profile(props) {
         Mi Perfil
       </h1>
       <div
-        className=" bg-white grid grid-cols-3 mx-10 shadow-lg gap-1 mx-auto my-5 rounded-md "
+        className=" bg-white grid grid-cols-3 mx-10 shadow-lg gap-1 my-5 rounded-md "
         style={{ maxWidth: "600px" }}
       >
         <div className=" ">
